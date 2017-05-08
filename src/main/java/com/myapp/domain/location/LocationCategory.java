@@ -8,6 +8,7 @@ import com.myapp.domain.category.Category;
 public class LocationCategory extends Category {
 
     private String location;
+    private int defaultDuration;
 
     public LocationCategory() {
         super("",0.0);
@@ -16,6 +17,7 @@ public class LocationCategory extends Category {
     public LocationCategory(String location, String category, double value) {
         super(category,value);
         this.location=location;
+        this.defaultDuration = 180;
     }
 
     public String getLocation() {
