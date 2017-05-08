@@ -1,0 +1,1 @@
+2017-04-29 01:02:28.101 [Thread-6] ERROR  - error  java.lang.IllegalArgumentException: NaN is not a valid double value as per JSON specification. To override this behavior, use GsonBuilder.serializeSpecialFloatingPointValues() method.
