@@ -11,11 +11,19 @@ public class Activity {
     private Integer activityId;
     private String activityName;
     private String location;
+    private String suggestedDuration;
     private Double rating;
     private int numbersOfReviews;
-    private int duration;
     private List<DayPart> dayParts;
+    private List<String> openHours;
 
+    public String getSuggestedDuration() {
+        return suggestedDuration;
+    }
+
+    public void setSuggestedDuration(String suggestedDuration) {
+        this.suggestedDuration = suggestedDuration;
+    }
     public int getNumbersOfReviews() {
         return numbersOfReviews;
     }
@@ -57,22 +65,24 @@ public class Activity {
         this.rating = rating;
     }
 
-
-    public int getDuration() {
-        return duration;
-    }
-
-    public void setDuration(int duration) {
-        this.duration = duration;
-    }
-
-
     public List<DayPart> getDayParts() {
         return dayParts;
     }
 
     public void setDayParts(List<DayPart> dayParts) {
         this.dayParts = dayParts;
+    }
+
+    @Override
+    public String toString() {
+        return "Activity{" +
+                "activityId=" + activityId +
+                ", activityName='" + activityName + '\'' +
+                ", location='" + location + '\'' +
+                ", suggestedDuration='" + suggestedDuration + '\'' +
+                ", rating=" + rating +
+                ", numbersOfReviews=" + numbersOfReviews +
+                '}';
     }
 
     public enum   DayPart{
@@ -90,16 +100,6 @@ public class Activity {
             return partOfDay;
         }
 
-    }
-    @Override
-    public String toString() {
-        return "Activity{" +
-                "activityId=" + activityId +
-                ", activityName='" + activityName + '\'' +
-                ", location='" + location + '\'' +
-                ", rating=" + rating +
-                ", numbersOfReviews=" + numbersOfReviews +
-                '}';
     }
 
 

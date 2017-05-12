@@ -29,7 +29,7 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
         UserDetails creds = new ObjectMapper().readValue(req.getInputStream(), UserDetails.class);
         res.setHeader("Access-Control-Allow-Origin","*"); //todo
         res.setHeader("Access-Control-Expose-Headers","Authorization");
-        //todo check here in the db
+
         return getAuthenticationManager().authenticate(
                 new UsernamePasswordAuthenticationToken(
                         creds.getLoginName(),
