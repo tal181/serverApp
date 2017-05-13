@@ -24,12 +24,12 @@ public class ComputeService {
     @Path("/{loginName}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response compute(@PathParam("loginName") String loginName,
-                            @DefaultValue("3") @QueryParam("number") Integer number) {
+                            @DefaultValue("3") @QueryParam("numberOfActivities") Integer numberOfActivities) {
         try {
             List<Category> computes =computeApi.computeUserLocationsCategories(loginName);
-
+            int minSize=Math.min(numberOfActivities,computes.size());
             return Response
-                    .ok(computes.subList(0, number))
+                    .ok(computes.subList(0, minSize))
                     .type(MediaType.APPLICATION_JSON)
                     .build();
         } catch (Exception e) {

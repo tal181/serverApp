@@ -48,13 +48,20 @@ public class TAInsertDBThread {
 
                 //set cat rating
                 List<Activity> activites=entry.getValue();
-                Double catRating=computerCategoryRating(activites);
+
+                //calc category sum
+                Double sumOfCategory=computeSumOfCategory(activites);
+
+                Double catRating=computerCategoryRating(activites,sumOfCategory);
                 Category key=entry.getKey();
                 key.setRating(catRating);
 
                 locationCategoryApi.updateCategory(key,location);
-                activityApi.addActivities(activites);
-                System.out.println("activities are " +  activites.toString());
+
+                //recalc category rating
+                List<Activity> recalcActivitesRating=recalcActivitesRating(activites,sumOfCategory);
+                activityApi.addActivities(recalcActivitesRating);
+                System.out.println("activities are " +  recalcActivitesRating.toString());
             }
             catch (Exception e){
                 LogManager.getRootLogger().error("error  " +e);
@@ -67,17 +74,32 @@ public class TAInsertDBThread {
         System.out.println( "finish adding "+ location + " to DB  !!!!!!!!!!");
 
     }
+    private List<Activity> recalcActivitesRating(List<Activity> activites,Double sum){
+        List<Activity> recalcActivites= new ArrayList<>();
 
-    private Double computerCategoryRating(List<Activity> activites) {
-        Double sum=0D;
-        int sumOfPeople=0;
-        Double activityGrades=0D;
+
+        for(Activity activity:activites) {
+            Activity recalcActiviy = new Activity(activity);
+            recalcActiviy.setRating(recalcActiviy.getRating()/sum);
+        }
+        return recalcActivites;
+    }
+
+    private Double computeSumOfCategory(List<Activity> activites){
+        Double sumOfPeople=0D;
         for(Activity activity:activites) {
             sumOfPeople += activity.getNumbersOfReviews();
+        }
+        return sumOfPeople;
+    }
+
+    private Double computerCategoryRating(List<Activity> activites,Double sumOfPeople) {
+        Double activityGrades=0D;
+        for(Activity activity:activites) {
             Double activityGrade=activity.getNumbersOfReviews()*activity.getRating();
             activityGrades+=activityGrade;
         }
-        return activityGrades/(sumOfPeople);
+        return activityGrades/(sumOfPeople*10);
     }
 
     private void handleCategoriesCreate(Map<String,Category> allCategoriesMap, Set<Category> categories) throws Exception{

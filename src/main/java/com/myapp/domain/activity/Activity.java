@@ -16,6 +16,32 @@ public class Activity {
     private int numbersOfReviews;
     private List<DayPart> dayParts;
     private List<String> openHours;
+    public Activity(){
+
+    }
+    public Activity(Integer activityId, String activityName, String location,
+                    String suggestedDuration, Double rating, int numbersOfReviews,
+                    List<DayPart> dayParts, List<String> openHours) {
+        this.activityId = activityId;
+        this.activityName = activityName;
+        this.location = location;
+        this.suggestedDuration = suggestedDuration;
+        this.rating = rating;
+        this.numbersOfReviews = numbersOfReviews;
+        this.dayParts = dayParts;
+        this.openHours = openHours;
+    }
+
+    public Activity(Activity otherActivity) {
+        this.activityId = otherActivity.activityId;
+        this.activityName = otherActivity.activityName;
+        this.location = otherActivity.location;
+        this.suggestedDuration = otherActivity.suggestedDuration;
+        this.rating = otherActivity.rating;
+        this.numbersOfReviews = otherActivity.numbersOfReviews;
+        this.dayParts = otherActivity.dayParts;
+        this.openHours = otherActivity.openHours;
+    }
 
     public String getSuggestedDuration() {
         return suggestedDuration;

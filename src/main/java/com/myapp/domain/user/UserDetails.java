@@ -13,7 +13,6 @@ public class UserDetails {
     private String phone;
     private String password;
 
-
     public String getLoginName() {
         return loginName;
     }
