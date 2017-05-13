@@ -6,9 +6,11 @@ import com.google.maps.GeoApiContext;
 import com.google.maps.PendingResult;
 import com.google.maps.model.DistanceMatrix;
 import com.google.maps.model.TravelMode;
+import org.springframework.stereotype.Component;
 
 import java.util.concurrent.CountDownLatch;
 
+@Component
 public class GoogleApiHelper{
     private GeoApiContext context = new GeoApiContext().setApiKey("AIzaSyDH0fd-GkKJ1SdprUgNbacvN_4fEz-HnUM");
     final static CountDownLatch latch = new CountDownLatch(1);
@@ -40,8 +42,8 @@ public class GoogleApiHelper{
         });
     }
     public static void main(String[] args) throws InterruptedException {
-        String[] origin =new String[]{"180 Greenwich St, World Trade Center, New York City, NY"};
-        String[] arrival= new String[]{"1000 5th Ave, New York City, NY"};
+        String[] origin =new String[]{"1025 Boardwalk W, New York City, NY"};
+        String[] arrival= new String[]{"Avenue of the Americas & W 59th St, Wollman Rink, New York City, NY 10019"};
         GoogleApiHelper g= new GoogleApiHelper();
         GoogleApiResponse googleApiResponse= new GoogleApiResponse();
         g.estimateTimeArrival(origin,arrival,TravelMode.WALKING,googleApiResponse);

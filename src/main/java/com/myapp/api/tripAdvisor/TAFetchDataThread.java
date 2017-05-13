@@ -1,13 +1,16 @@
 package com.myapp.api.tripAdvisor;
 
+import com.myapp.Constants;
 import com.myapp.domain.activity.Activity;
 import com.myapp.domain.category.Category;
+import jdk.nashorn.internal.runtime.ECMAException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -34,6 +37,9 @@ public class TAFetchDataThread implements Callable{
 
     String location;
 
+    @Autowired
+    TAUtils taUtils;
+
     public TAFetchDataThread() {
     }
     public HashMap<Category,List<Activity> > call() throws Exception{
@@ -49,7 +55,8 @@ public class TAFetchDataThread implements Callable{
     }
 
     public static void main(String[] args) throws Exception{
-        HashMap<Category,List<Activity> > a= getCategoryAggregation("New York City, New York");
+        TAFetchDataThread thread= new TAFetchDataThread();
+        HashMap<Category,List<Activity> > a= thread.getCategoryAggregation("New York City, New York");
 
         for (Map.Entry<Category, List<Activity>> entry : a.entrySet()) {
             try {
@@ -61,7 +68,7 @@ public class TAFetchDataThread implements Callable{
         }
     }
 
-    public static void decideBetweenPages(FirefoxDriver driver,String location) throws Exception{
+    public  void decideBetweenPages(FirefoxDriver driver,String location) throws Exception{
         WebElement ele=null;
         try {
             ele=driver.findElementById(SUBMIT_HOTELS);
@@ -72,7 +79,7 @@ public class TAFetchDataThread implements Callable{
         if(ele!=null){
             WebElement globalAttractions=driver.findElementById("global-nav-Attractions");
             globalAttractions.click();
-
+            Thread.sleep(2000);
             WebElement textBox=driver.findElementByClassName("typeahead_input"); //todo need to fix
             setLocation(textBox,driver,location);
 
@@ -87,7 +94,7 @@ public class TAFetchDataThread implements Callable{
             setLocation(searchField,driver,location);
         }
     }
-    public static HashMap<Category,List<Activity> > getCategoryAggregation(String location) throws Exception {
+    public  HashMap<Category,List<Activity> > getCategoryAggregation(String location) throws Exception {
         System.out.println( "getCategoryAggregation " + location + " started !!!!!!!!!!");
 
         FirefoxDriver driver=initDriver();
@@ -129,40 +136,63 @@ public class TAFetchDataThread implements Callable{
         return categoryAggregation;
 
     }
-    private static String parseCategory(String categoryName){
+    private  String parseCategory(String categoryName){
 
         String[] tokens = categoryName.split(" ");
         String parsedCategoryName=tokens[0];
         return parsedCategoryName;
     }
 
-    private static Double parseAttractionRating(String attractionRating){
+    private  Double parseAttractionRating(String attractionRating){
         String[] tokens = attractionRating.split(" ");
         Double parsedAttractionRating= Double.valueOf(tokens[0]) *2;
         return parsedAttractionRating;
 
     }
-    private static void activityPage(FirefoxDriver driver, Activity activity) throws Exception{
+
+    private  void getActivityLocation(FirefoxDriver driver, Activity activity){
+        try {
+            WebElement locationAddress = driver.findElementByClassName("format_address");
+            activity.setAddress(locationAddress.getText().split(": ")[1]);
+        }
+        catch (Exception e){
+            System.out.println("failed to get  Address data " +activity.getActivityName()+e);
+        }
+        if(activity.getAddress()==null){
+            try {
+                WebElement locationAddress = driver.findElementByClassName("address");
+                activity.setAddress(locationAddress.getText());
+
+            }
+            catch (Exception e){
+                System.out.println("failed to get  Address data " +activity.getActivityName()+e);
+            }
+        }
+    }
+    private void activityPage(FirefoxDriver driver, Activity activity) throws Exception{
         String parentHandle = driver.getWindowHandle();
         for (String winHandle : driver.getWindowHandles()) {
             driver.switchTo().window(winHandle); // switch focus of WebDriver to the next found window handle (that's your newly opened window)
         }
-        try {
-            WebElement locationAddress = driver.findElementByClassName("format_address");
-            activity.setLocation(locationAddress.getText().split(": ")[1]);
+        Thread.sleep(2000);
+        getActivityLocation(driver,activity);
 
+        try {
             WebElement suggestedDuration = driver.findElementByClassName("details_wrapper").findElement(By.className("detail"));//need to fix
-            activity.setSuggestedDuration(suggestedDuration.getText().split(": ")[1]);
+            String suggestedDurationString=suggestedDuration.getText().split(": ")[1];
+            Integer suggestedDurationValue=taUtils.parseSuggestedDuration(suggestedDurationString);
+            activity.setSuggestedDuration(suggestedDurationValue);
         }
         catch (Exception e){
-            System.out.println("failed to get activityPage data " +activity.getActivityName()+e);
+            System.out.println("failed to get suggested Duration data " +activity.getActivityName()+e);
+            activity.setSuggestedDuration(Constants.DEFAULT_SUGGESTED_DURATION);
         }
 
         driver.close();
-        Thread.sleep(10000);
+        //Thread.sleep(10000);
         driver.switchTo().window(parentHandle);
     }
-    private  static  List<Activity>  getAttractions(FirefoxDriver driver, String location) throws Exception{
+    private    List<Activity>  getAttractions(FirefoxDriver driver, String location) throws Exception{
         List<Activity>  attractionsList = new ArrayList<>();
         WebElement attractions=driver.findElement(By.id(ATTRACTIONS_LIST));
         List<WebElement> childs = attractions.findElements(By.className("listing_info"));
@@ -177,7 +207,7 @@ public class TAFetchDataThread implements Callable{
                 WebElement title = child.findElement(By.className("listing_title"));
                 String titleText=title.getText();
                 activity.setActivityName(titleText);
-
+                activity.setLocation(location);
                 WebElement activityLink=title.findElement(By.tagName("a"));
                 activityLink.click();
 
@@ -212,7 +242,7 @@ public class TAFetchDataThread implements Callable{
     }
 
 
-    private static  Map<String,String> buildCategorylist(List<WebElement> childs){
+    private   Map<String,String> buildCategorylist(List<WebElement> childs){
         Map<String,String> categoriesList= new HashMap<>();
         for (WebElement child :childs) {
             try {
@@ -228,7 +258,7 @@ public class TAFetchDataThread implements Callable{
         }
         return categoriesList;
     }
-    private static void clickOnMoreResaults(WebElement parentElement){
+    private  void clickOnMoreResaults(WebElement parentElement){
 
         try{
             WebElement linkClass = parentElement.findElement(By.className("reduced_height"));
@@ -239,7 +269,7 @@ public class TAFetchDataThread implements Callable{
 
         }
     }
-    private static  FirefoxDriver  initDriver(){
+    private   FirefoxDriver  initDriver(){
         //init
         System.setProperty("webdriver.gecko.driver", "C:/drivers/geckodriver.exe");
 
@@ -260,13 +290,13 @@ public class TAFetchDataThread implements Callable{
         //perform navigation to things to do
         return driver;
     }
-    private static void setCategory(FirefoxDriver driver) throws Exception{
+    private  void setCategory(FirefoxDriver driver) throws Exception{
         WebElement searchField=driver.findElement(By.id(SEARCH_BOX));
         searchField.sendKeys("Things to Do");
         Thread.sleep(1000);
         searchField.sendKeys(Keys.ENTER);
     }
-    private static void setLocation( WebElement searchField,FirefoxDriver driver,String location)  throws Exception{
+    private  void setLocation( WebElement searchField,FirefoxDriver driver,String location)  throws Exception{
         String[] locationArray=location.split(",");
         searchField.sendKeys(locationArray[0]);
         Thread.sleep(3000);

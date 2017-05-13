@@ -11,7 +11,8 @@ public class Activity {
     private Integer activityId;
     private String activityName;
     private String location;
-    private String suggestedDuration;
+    private String address;
+    private Integer suggestedDuration;
     private Double rating;
     private int numbersOfReviews;
     private List<DayPart> dayParts;
@@ -20,7 +21,7 @@ public class Activity {
 
     }
     public Activity(Integer activityId, String activityName, String location,
-                    String suggestedDuration, Double rating, int numbersOfReviews,
+                    Integer suggestedDuration, Double rating, int numbersOfReviews,
                     List<DayPart> dayParts, List<String> openHours) {
         this.activityId = activityId;
         this.activityName = activityName;
@@ -32,7 +33,16 @@ public class Activity {
         this.openHours = openHours;
     }
 
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
     public Activity(Activity otherActivity) {
+        this.address=otherActivity.address;
         this.activityId = otherActivity.activityId;
         this.activityName = otherActivity.activityName;
         this.location = otherActivity.location;
@@ -43,11 +53,11 @@ public class Activity {
         this.openHours = otherActivity.openHours;
     }
 
-    public String getSuggestedDuration() {
+    public Integer getSuggestedDuration() {
         return suggestedDuration;
     }
 
-    public void setSuggestedDuration(String suggestedDuration) {
+    public void setSuggestedDuration(Integer suggestedDuration) {
         this.suggestedDuration = suggestedDuration;
     }
     public int getNumbersOfReviews() {
@@ -104,6 +114,7 @@ public class Activity {
         return "Activity{" +
                 "activityId=" + activityId +
                 ", activityName='" + activityName + '\'' +
+                ", address='" + address + '\'' +
                 ", location='" + location + '\'' +
                 ", suggestedDuration='" + suggestedDuration + '\'' +
                 ", rating=" + rating +

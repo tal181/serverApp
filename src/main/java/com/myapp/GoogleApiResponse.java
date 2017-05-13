@@ -24,4 +24,11 @@ public class GoogleApiResponse {
         this.duration = duration;
     }
 
+    @Override
+    public String toString() {
+        return "GoogleApiResponse{" +
+                "duration='" + duration + '\'' +
+                ", distance='" + distance + '\'' +
+                '}';
+    }
 }

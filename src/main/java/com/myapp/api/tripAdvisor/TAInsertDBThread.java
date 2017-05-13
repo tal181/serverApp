@@ -81,6 +81,7 @@ public class TAInsertDBThread {
         for(Activity activity:activites) {
             Activity recalcActiviy = new Activity(activity);
             recalcActiviy.setRating(recalcActiviy.getRating()/sum);
+            recalcActivites.add(recalcActiviy);
         }
         return recalcActivites;
     }
