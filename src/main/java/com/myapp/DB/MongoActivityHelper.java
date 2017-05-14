@@ -7,6 +7,7 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.util.JSON;
 import com.myapp.domain.activity.Activity;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Component;
@@ -40,6 +41,10 @@ public class MongoActivityHelper {
             DBObject dBObject = cursor.next();
             Activity activity = gson.fromJson(dBObject.toString(),
                     Activity.class);
+
+            ObjectId id = (ObjectId) dBObject.get( "_id" );
+            activity.setActivityId(id);
+
             activities.add(activity);
 
         }

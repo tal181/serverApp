@@ -7,6 +7,7 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.util.JSON;
 import com.myapp.domain.category.Category;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Component;
@@ -38,6 +39,8 @@ public class MongoCategoryHelper {
             Category category = gson.fromJson(dbobj.toString(),
                     Category.class);
 
+            ObjectId id = (ObjectId)dbobj.get( "_id" );
+            category.setId(id);
             categories.add(category);
 
         }

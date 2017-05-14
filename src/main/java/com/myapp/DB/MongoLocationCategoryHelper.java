@@ -8,6 +8,7 @@ import com.mongodb.DBObject;
 import com.mongodb.util.JSON;
 import com.myapp.domain.category.Category;
 import com.myapp.domain.location.LocationCategory;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Component;
@@ -44,6 +45,10 @@ public class MongoLocationCategoryHelper {
             DBObject dBObject = cursor.next();
             LocationCategory locationCategory = gson.fromJson(dBObject.toString(),
                     LocationCategory.class);
+
+            ObjectId id = (ObjectId) dBObject.get( "_id" );
+            locationCategory.setId(id);
+
             categories.add(locationCategory);
 
         }

@@ -1,6 +1,7 @@
 package com.myapp.domain.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.bson.types.ObjectId;
 
 /**
  * Created by Tal on 16/04/2017.
@@ -8,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class UserDetails {
     private String userName;
-    private double id;
+    private ObjectId id;
     private String loginName;
     private String phone;
     private String password;
@@ -31,11 +32,11 @@ public class UserDetails {
     }
 
 
-    public double getId() {
+    public ObjectId getId() {
         return id;
     }
 
-    public void setId(double id) {
+    public void setId(ObjectId id) {
         this.id = id;
     }
 

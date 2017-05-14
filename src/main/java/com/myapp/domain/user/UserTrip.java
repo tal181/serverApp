@@ -1,6 +1,7 @@
 package com.myapp.domain.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.bson.types.ObjectId;
 
 /**
  * Created by Tal on 12/05/2017.
@@ -8,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class UserTrip {
 
-    private Integer tripId;
+    private ObjectId tripId;
     private String loginName;
     private Double budget;
     private Integer duration;
@@ -22,11 +23,11 @@ public class UserTrip {
     }
 
 
-    public Integer getTripId() {
+    public ObjectId getTripId() {
         return tripId;
     }
 
-    public void setTripId(Integer tripId) {
+    public void setTripId(ObjectId tripId) {
         this.tripId = tripId;
     }
 

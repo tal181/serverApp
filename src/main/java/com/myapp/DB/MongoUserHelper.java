@@ -7,6 +7,8 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.util.JSON;
 import com.myapp.domain.user.UserCategory;
+import com.myapp.domain.user.UserDetails;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Component;
@@ -34,7 +36,7 @@ public class MongoUserHelper {
         table.insert(dbObject);
 
     }
-    public String find(String tableName,String query) throws Exception{
+    public UserDetails find(String tableName, String query) throws Exception{
         DBCollection table = mongoTemplate.getCollection(tableName);
 
         BasicDBObject searchQuery = new BasicDBObject();
@@ -45,9 +47,12 @@ public class MongoUserHelper {
         DBCursor cursor = table.find(searchQuery);
 
         while (cursor.hasNext()) {
+            UserDetails userDetails = new UserDetails();
             DBObject dbobj = cursor.next();
+            ObjectId id = (ObjectId)dbobj.get( "_id" );
+            userDetails.setId(id);
 
-            return dbobj.toString();
+            return userDetails;
         }
         throw new NotFoundException("User wasn't found");
     }
@@ -68,6 +73,10 @@ public class MongoUserHelper {
             DBObject dBObject = cursor.next();
             UserCategory userCategory = gson.fromJson(dBObject.toString(),
                     UserCategory.class);
+
+            ObjectId id = (ObjectId)dBObject.get( "_id" );
+            userCategory.setId(id);
+
             categories.add(userCategory);
 
         }

@@ -5,8 +5,12 @@ package com.myapp;
  */
 public class GoogleApiResponse {
 
-    String duration;
+    Integer duration;
     String distance;
+
+    public GoogleApiResponse(){
+        duration=Constants.DEFAULT_SUGGESTED_DURATION;
+    }
 
     public String getDistance() {
         return distance;
@@ -16,11 +20,11 @@ public class GoogleApiResponse {
         this.distance = distance;
     }
     
-    public String getDuration() {
+    public Integer getDuration() {
         return duration;
     }
 
-    public void setDuration(String duration) {
+    public void setDuration(Integer duration) {
         this.duration = duration;
     }
 

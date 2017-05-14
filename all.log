@@ -1,3 +1,1 @@
-2017-05-08 13:24:42.560 [http-nio-8080-exec-1] ERROR  - FAiked to get user  java.lang.NullPointerException
-2017-05-08 13:25:03.984 [http-nio-8080-exec-3] ERROR  - FAiked to get user  java.lang.NullPointerException
-2017-05-08 13:40:59.919 [http-nio-8080-exec-5] ERROR  - FAiked to get user  java.lang.NullPointerException
+2017-05-13 21:22:55.892 [Thread-8] ERROR  - error  java.lang.IllegalArgumentException: state should be: count

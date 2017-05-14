@@ -1,5 +1,7 @@
 package com.myapp.domain.category;
 
+import org.bson.types.ObjectId;
+
 /**
  * Created by Tal on 16/04/2017.
  */
@@ -7,7 +9,7 @@ public class Category {
 
     private String categoryName;
     private double rating;
-    private double id;
+    private ObjectId id;
     public Category() {
     }
     public Category(String categoryName) {
@@ -18,6 +20,15 @@ public class Category {
         this.categoryName = categoryName;
         this.rating = rating;
     }
+
+    public ObjectId getId() {
+        return id;
+    }
+
+    public void setId(ObjectId id) {
+        this.id = id;
+    }
+
 
     public String getCategoryName() {
         return categoryName;
@@ -43,7 +54,7 @@ public class Category {
         Category category = (Category) o;
 
         if (Double.compare(category.rating, rating) != 0) return false;
-        if (Double.compare(category.id, id) != 0) return false;
+        if (category.id!=id) return false;
         return categoryName.equals(category.categoryName);
     }
 
@@ -54,7 +65,7 @@ public class Category {
         result = categoryName.hashCode();
         temp = Double.doubleToLongBits(rating);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
-        temp = Double.doubleToLongBits(id);
+        temp = id.hashCode();
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         return result;
     }

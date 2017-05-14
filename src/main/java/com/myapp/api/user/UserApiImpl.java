@@ -8,6 +8,7 @@ import com.myapp.api.locationCategory.LocationCategoryApi;
 import com.myapp.config.TablesScheme;
 import com.myapp.domain.user.UserCategory;
 import com.myapp.domain.user.UserDetails;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -27,15 +28,12 @@ public class UserApiImpl implements UserApi {
     @Autowired
     MongoUserHelper mongoUserHelper;
 
-    @Autowired
-    LocationCategoryApi locationCategoryApi;
-
     @Override
     public UserDetails getUserDetails(String loginName) throws Exception {
 
         Gson gson = new Gson();
-        String userJson=mongoUserHelper.find(TablesScheme.USERS_TABLE,loginName);
-        UserDetails user = gson.fromJson(userJson, UserDetails.class);
+        UserDetails user=mongoUserHelper.find(TablesScheme.USERS_TABLE,loginName);
+
         return user;
     }
 

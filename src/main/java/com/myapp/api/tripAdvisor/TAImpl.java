@@ -11,6 +11,9 @@ public class TAImpl implements TAApi{
     @Autowired
     ManageTA manageTA;
 
+    @Autowired
+    CalcEstimateTimeThread calcEstimateTimeThread;
+
     public  void getData() throws Exception{
 
 //        manageTA.setLocation("London,United Kingdom");
@@ -26,6 +29,11 @@ public class TAImpl implements TAApi{
         thread3.start();
 
 
+    }
+
+    @Override
+    public void syncEstimateTime() throws Exception{
+        calcEstimateTimeThread.run();
     }
 
 }

@@ -13,7 +13,7 @@ import javax.ws.rs.core.Response;
 //todo make it sigelton
 @Component
 //@org.springframework.context.annotation.Scope("prototype")
-@Path("/fetchTaData")
+@Path("/TA")
 public class TAService {
     @Autowired
     TAApi taApi;
@@ -21,9 +21,27 @@ public class TAService {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
+    @Path("/fetchTaData")
     public Response getData() {
         try {
             taApi.getData();
+
+            return Response
+                    .ok()
+                    .type(MediaType.APPLICATION_JSON)
+                    .build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).
+                    entity("error").build();
+        }
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/syncEstimateTime")
+    public Response syncrEstimateTime() {
+        try {
+            taApi.syncEstimateTime();
 
             return Response
                     .ok()

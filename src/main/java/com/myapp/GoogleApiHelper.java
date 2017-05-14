@@ -5,18 +5,31 @@ import com.google.maps.DistanceMatrixApiRequest;
 import com.google.maps.GeoApiContext;
 import com.google.maps.PendingResult;
 import com.google.maps.model.DistanceMatrix;
+import com.google.maps.model.DistanceMatrixElement;
 import com.google.maps.model.TravelMode;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 
 @Component
 public class GoogleApiHelper{
-    private GeoApiContext context = new GeoApiContext().setApiKey("AIzaSyDH0fd-GkKJ1SdprUgNbacvN_4fEz-HnUM");
-    final static CountDownLatch latch = new CountDownLatch(1);
+    public CountDownLatch latch;
+    GoogleApiHelper(){
 
-    public  void estimateTimeArrival(String[] origin,String[] arrival,TravelMode mode
-            ,GoogleApiResponse googleApiResponse){
+    }
+
+    public void setLatch(CountDownLatch latch) {
+        this.latch = latch;
+    }
+
+    private GeoApiContext context = new GeoApiContext().setApiKey("AIzaSyDH0fd-GkKJ1SdprUgNbacvN_4fEz-HnUM");
+
+
+    public  void estimateTimeArrival(String[] origin, String[] arrival, TravelMode mode
+            ,List<GoogleApiResponse> googleApiResponses){
         DistanceMatrixApiRequest req = DistanceMatrixApi.getDistanceMatrix(context,
                 origin,
                 arrival);
@@ -28,9 +41,23 @@ public class GoogleApiHelper{
             public void onResult(DistanceMatrix result) {
                 Gson gson = new GsonBuilder().setPrettyPrinting().create();
                 System.out.println(gson.toJson(result));
+                DistanceMatrixElement[] elements=result.rows[0].elements;
+                for(int index=0;index<elements.length;index++){
+                    GoogleApiResponse googleApiResponse= new GoogleApiResponse();
+                    if(result.rows[0].elements[index].status.name().equals("OK")){
+                        Long duration=elements[index].duration.inSeconds/60;
+                        googleApiResponse.setDuration(duration.intValue());
+                        googleApiResponse.setDistance(result.rows[0].elements[0].distance.humanReadable);
+                        googleApiResponses.add(googleApiResponse);
+                    }
+                    else{
+                        //failed to get info
+                        googleApiResponses.add(googleApiResponse);
 
-                googleApiResponse.setDuration(result.rows[0].elements[0].duration.humanReadable);
-                googleApiResponse.setDistance(result.rows[0].elements[0].distance.humanReadable);
+                    }
+                }
+
+
                 latch.countDown();
             }
 
@@ -41,16 +68,5 @@ public class GoogleApiHelper{
             }
         });
     }
-    public static void main(String[] args) throws InterruptedException {
-        String[] origin =new String[]{"1025 Boardwalk W, New York City, NY"};
-        String[] arrival= new String[]{"Avenue of the Americas & W 59th St, Wollman Rink, New York City, NY 10019"};
-        GoogleApiHelper g= new GoogleApiHelper();
-        GoogleApiResponse googleApiResponse= new GoogleApiResponse();
-        g.estimateTimeArrival(origin,arrival,TravelMode.WALKING,googleApiResponse);
 
-        // We have to hold the main thread open until callback is called by OkHTTP.
-        latch.await();
-
-        System.out.println(googleApiResponse.getDistance());
-    }
 }

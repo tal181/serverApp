@@ -6,4 +6,6 @@ package com.myapp.api.tripAdvisor;
 public interface TAApi {
 
     void getData() throws Exception;
+
+    void syncEstimateTime() throws Exception;
 }

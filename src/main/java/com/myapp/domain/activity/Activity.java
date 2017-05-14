@@ -1,5 +1,6 @@
 package com.myapp.domain.activity;
 
+import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.aggregation.ArrayOperators;
 
 import java.util.List;
@@ -8,7 +9,8 @@ import java.util.List;
  * Created by tal on 26/04/2017.
  */
 public class Activity {
-    private Integer activityId;
+    private ObjectId activityId;
+
     private String activityName;
     private String location;
     private String address;
@@ -20,7 +22,7 @@ public class Activity {
     public Activity(){
 
     }
-    public Activity(Integer activityId, String activityName, String location,
+    public Activity(ObjectId activityId, String activityName, String location,
                     Integer suggestedDuration, Double rating, int numbersOfReviews,
                     List<DayPart> dayParts, List<String> openHours) {
         this.activityId = activityId;
@@ -69,11 +71,11 @@ public class Activity {
     }
 
 
-    public Integer getActivityId() {
+    public ObjectId getActivityId() {
         return activityId;
     }
 
-    public void setActivityId(Integer activityId) {
+    public void setActivityId(ObjectId activityId) {
         this.activityId = activityId;
     }
 
