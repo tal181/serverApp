@@ -9,7 +9,7 @@ public class Category {
 
     private String categoryName;
     private double rating;
-    private ObjectId id;
+    private String id;
     public Category() {
     }
     public Category(String categoryName) {
@@ -21,11 +21,11 @@ public class Category {
         this.rating = rating;
     }
 
-    public ObjectId getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(ObjectId id) {
+    public void setId(String id) {
         this.id = id;
     }
 

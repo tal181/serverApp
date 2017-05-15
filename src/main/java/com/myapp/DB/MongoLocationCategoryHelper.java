@@ -47,7 +47,7 @@ public class MongoLocationCategoryHelper {
                     LocationCategory.class);
 
             ObjectId id = (ObjectId) dBObject.get( "_id" );
-            locationCategory.setId(id);
+            locationCategory.setId(id.toString());
 
             categories.add(locationCategory);
 

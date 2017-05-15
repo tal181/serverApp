@@ -50,7 +50,7 @@ public class MongoUserHelper {
             UserDetails userDetails = new UserDetails();
             DBObject dbobj = cursor.next();
             ObjectId id = (ObjectId)dbobj.get( "_id" );
-            userDetails.setId(id);
+            userDetails.setId(id.toString());
 
             return userDetails;
         }
@@ -75,7 +75,7 @@ public class MongoUserHelper {
                     UserCategory.class);
 
             ObjectId id = (ObjectId)dBObject.get( "_id" );
-            userCategory.setId(id);
+            userCategory.setId(id.toString());
 
             categories.add(userCategory);
 

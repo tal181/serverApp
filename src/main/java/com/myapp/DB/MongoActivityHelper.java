@@ -43,7 +43,7 @@ public class MongoActivityHelper {
                     Activity.class);
 
             ObjectId id = (ObjectId) dBObject.get( "_id" );
-            activity.setActivityId(id);
+            activity.setActivityId(id.toString());
 
             activities.add(activity);
 

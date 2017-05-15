@@ -7,6 +7,7 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.util.JSON;
 import com.myapp.domain.user.UserCategory;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Component;
@@ -39,6 +40,10 @@ public class MongoUserCategoryHelper {
             DBObject dBObject = cursor.next();
             UserCategory userCategory = gson.fromJson(dBObject.toString(),
                     UserCategory.class);
+
+            ObjectId id = (ObjectId)dBObject.get( "_id" );
+            userCategory.setId(id.toString());
+
             categories.add(userCategory);
 
         }

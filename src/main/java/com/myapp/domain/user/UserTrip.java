@@ -9,7 +9,7 @@ import org.bson.types.ObjectId;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class UserTrip {
 
-    private ObjectId tripId;
+    private String tripId;
     private String loginName;
     private Double budget;
     private Integer duration;
@@ -23,11 +23,11 @@ public class UserTrip {
     }
 
 
-    public ObjectId getTripId() {
+    public String getTripId() {
         return tripId;
     }
 
-    public void setTripId(ObjectId tripId) {
+    public void setTripId(String tripId) {
         this.tripId = tripId;
     }
 

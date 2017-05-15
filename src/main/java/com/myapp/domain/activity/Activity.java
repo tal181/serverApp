@@ -9,7 +9,7 @@ import java.util.List;
  * Created by tal on 26/04/2017.
  */
 public class Activity {
-    private ObjectId activityId;
+    private String activityId;
 
     private String activityName;
     private String location;
@@ -22,7 +22,7 @@ public class Activity {
     public Activity(){
 
     }
-    public Activity(ObjectId activityId, String activityName, String location,
+    public Activity(String activityId, String activityName, String location,
                     Integer suggestedDuration, Double rating, int numbersOfReviews,
                     List<DayPart> dayParts, List<String> openHours) {
         this.activityId = activityId;
@@ -71,11 +71,11 @@ public class Activity {
     }
 
 
-    public ObjectId getActivityId() {
+    public String getActivityId() {
         return activityId;
     }
 
-    public void setActivityId(ObjectId activityId) {
+    public void setActivityId(String activityId) {
         this.activityId = activityId;
     }
 

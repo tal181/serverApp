@@ -40,7 +40,7 @@ public class MongoCategoryHelper {
                     Category.class);
 
             ObjectId id = (ObjectId)dbobj.get( "_id" );
-            category.setId(id);
+            category.setId(id.toString());
             categories.add(category);
 
         }
