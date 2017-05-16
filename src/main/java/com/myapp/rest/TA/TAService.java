@@ -10,7 +10,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-//todo make it sigelton
+//todo make it singelton
 @Component
 //@org.springframework.context.annotation.Scope("prototype")
 @Path("/TA")

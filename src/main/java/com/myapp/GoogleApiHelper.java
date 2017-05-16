@@ -7,11 +7,12 @@ import com.google.maps.PendingResult;
 import com.google.maps.model.DistanceMatrix;
 import com.google.maps.model.DistanceMatrixElement;
 import com.google.maps.model.TravelMode;
+import com.myapp.domain.activity.Activity;
+import com.myapp.domain.activity.ActivityEstimateTimeDistance;
+import com.myapp.domain.activity.EstimateTimeDistance;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 
 @Component
@@ -29,7 +30,7 @@ public class GoogleApiHelper{
 
 
     public  void estimateTimeArrival(String[] origin, String[] arrival, TravelMode mode
-            ,List<GoogleApiResponse> googleApiResponses){
+            , ActivityEstimateTimeDistance activityEstimateTimeDistance, List<Activity> activities){
         DistanceMatrixApiRequest req = DistanceMatrixApi.getDistanceMatrix(context,
                 origin,
                 arrival);
@@ -43,16 +44,19 @@ public class GoogleApiHelper{
                 System.out.println(gson.toJson(result));
                 DistanceMatrixElement[] elements=result.rows[0].elements;
                 for(int index=0;index<elements.length;index++){
-                    GoogleApiResponse googleApiResponse= new GoogleApiResponse();
+
+                    EstimateTimeDistance estimateTimeDistance= new EstimateTimeDistance();
+                    String activityId=activities.get(index).getActivityId();
+                    estimateTimeDistance.setActivityId(activityId);
                     if(result.rows[0].elements[index].status.name().equals("OK")){
                         Long duration=elements[index].duration.inSeconds/60;
-                        googleApiResponse.setDuration(duration.intValue());
-                        googleApiResponse.setDistance(result.rows[0].elements[0].distance.humanReadable);
-                        googleApiResponses.add(googleApiResponse);
+                        estimateTimeDistance.setDuration(duration.intValue());
+                        estimateTimeDistance.setDistance(result.rows[0].elements[0].distance.humanReadable);
+                        activityEstimateTimeDistance.getActivities().add(estimateTimeDistance);
                     }
                     else{
                         //failed to get info
-                        googleApiResponses.add(googleApiResponse);
+                        activityEstimateTimeDistance.getActivities().add(estimateTimeDistance);
 
                     }
                 }

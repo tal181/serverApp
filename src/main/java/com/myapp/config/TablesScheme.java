@@ -16,6 +16,6 @@ public class TablesScheme {
 
     public static final String ACTIVITIES_TABLE="activities";
 
-    public static final String ACTIVITIES_MAPPING_TABLE="activitiesMapping";
+    public static final String ACTIVITIES_ESTIMATE_TIME_TABLE="activitiesEstimateTime";
 
 }

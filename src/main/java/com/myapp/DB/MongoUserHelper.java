@@ -45,10 +45,14 @@ public class MongoUserHelper {
         }
 
         DBCursor cursor = table.find(searchQuery);
-
+        Gson gson = new Gson();
         while (cursor.hasNext()) {
-            UserDetails userDetails = new UserDetails();
+
             DBObject dbobj = cursor.next();
+
+            UserDetails userDetails =gson.fromJson(dbobj.toString(),
+                    UserDetails.class);
+
             ObjectId id = (ObjectId)dbobj.get( "_id" );
             userDetails.setId(id.toString());
 

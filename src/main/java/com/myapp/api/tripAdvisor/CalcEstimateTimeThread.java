@@ -1,21 +1,16 @@
 package com.myapp.api.tripAdvisor;
 
 import com.google.maps.model.TravelMode;
-import com.myapp.Constants;
 import com.myapp.GoogleApiHelper;
-import com.myapp.GoogleApiResponse;
 import com.myapp.api.activity.ActivityApi;
-import com.myapp.api.locationCategory.LocationCategoryApi;
+import com.myapp.api.estimateActivity.EstimateActivityApi;
 import com.myapp.domain.activity.Activity;
-import com.myapp.domain.location.LocationCategory;
+import com.myapp.domain.activity.ActivityEstimateTimeDistance;
+import org.apache.logging.log4j.LogManager;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.stream.Collectors;
 
@@ -31,33 +26,45 @@ public class CalcEstimateTimeThread {
     @Autowired
     ActivityApi activityApi;
 
+    @Autowired
+    EstimateActivityApi estimateActivityApi;
+
     public void run() throws Exception{
         String location="New York City, New York";
-        List<Activity> activities=null;
+        final List<Activity> activities;
         try {
-            activities = activityApi.getActivitiesByLocation(location);
+            List<Activity> tempActivities = activityApi.getActivitiesByLocation(location);
 
-            activities=activities.stream().filter(item -> item.getAddress()!=null && !item.getAddress().isEmpty()).collect(Collectors.toList());
+            activities=tempActivities.stream().filter(item -> item.getAddress()!=null && !item.getAddress().isEmpty()).collect(Collectors.toList());
         }
         catch (Exception e){
-
+            throw e;
         }
-        //activities.forEach(item ->{
-            Activity item=activities.get(0);
+        activities.forEach(item ->{
             String[] destinations= getOtherActivitiesAddress(activities,item);
-            List<GoogleApiResponse> googleApiResponses = new ArrayList<>();
+            ActivityEstimateTimeDistance activityEstimateTime = new ActivityEstimateTimeDistance();
 
             String[] origin=new String[]{item.getAddress()};
 
             CountDownLatch latch = new CountDownLatch(1);
             gogleApiHelper.setLatch(latch);
-            gogleApiHelper.estimateTimeArrival(origin,destinations,TravelMode.DRIVING,googleApiResponses);
+            gogleApiHelper.estimateTimeArrival(origin,destinations,TravelMode.DRIVING,activityEstimateTime,activities);
 
-           latch.await();
-            System.out.println("item is " +item +" googleApiResponse" );
 
-            //map between origin-> destination with time
-        //});
+           try {
+               latch.await();
+
+               activityEstimateTime.setActivityId(item.getActivityId());
+               estimateActivityApi.addEstimateActivities(activityEstimateTime);
+           }
+           catch (Exception e){
+               LogManager.getRootLogger().error("error  " +e);
+               System.out.println(e.getMessage());
+           }
+
+
+
+        });
 
     }
 
