@@ -1,6 +1,8 @@
 package com.myapp.domain.activity;
 
+import javafx.util.Pair;
 import org.bson.types.ObjectId;
+import org.joda.time.Hours;
 import org.springframework.data.mongodb.core.aggregation.ArrayOperators;
 
 import java.util.List;
@@ -18,13 +20,13 @@ public class Activity {
     private Double rating;
     private int numbersOfReviews;
     private List<DayPart> dayParts;
-    private List<String> openHours;
+    private List<Pair<Hour,Hour>> openHours;
     public Activity(){
 
     }
     public Activity(String activityId, String activityName, String location,
                     Integer suggestedDuration, Double rating, int numbersOfReviews,
-                    List<DayPart> dayParts, List<String> openHours) {
+                    List<DayPart> dayParts, List<Pair<Hour,Hour>> openHours) {
         this.activityId = activityId;
         this.activityName = activityName;
         this.location = location;

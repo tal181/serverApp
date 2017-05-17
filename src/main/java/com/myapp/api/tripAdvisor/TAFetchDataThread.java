@@ -11,6 +11,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ import java.util.concurrent.Callable;
  * Created by Tal on 27/04/2017.
  */
 @Component
+@Scope("prototype")
 public class TAFetchDataThread implements Callable{
 
     public static final String SEARCH_BOX= "mainSearch";
@@ -43,6 +45,7 @@ public class TAFetchDataThread implements Callable{
     public TAFetchDataThread() {
     }
     public HashMap<Category,List<Activity> > call() throws Exception{
+        System.out.println("in " + location + "!!!!!!!!!!!!!!!!!!!!!!!!");
         return getCategoryAggregation(location);
     }
 

@@ -16,7 +16,6 @@ import java.util.concurrent.Future;
  * Created by Tal on 27/04/2017.
  */
 @Component
-@Scope("prototype")
 public class ManageTA implements Runnable {
     @Autowired
     TAInsertDBThread taDBThread;
@@ -40,7 +39,7 @@ public class ManageTA implements Runnable {
 
     public void run(){
         //get TA data
-        ExecutorService pool = Executors.newFixedThreadPool(3);
+        ExecutorService pool = Executors.newFixedThreadPool(5);
         taFetchDataThread.setLocation(location);
 
         Future<HashMap<Category,List<Activity> >> future = pool.submit(taFetchDataThread);

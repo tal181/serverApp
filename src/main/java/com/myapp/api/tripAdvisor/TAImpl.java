@@ -1,6 +1,9 @@
 package com.myapp.api.tripAdvisor;
 
+import com.myapp.SpringBootJerseyApplication;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Component;
 
 /**
@@ -8,24 +11,27 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class TAImpl implements TAApi{
-    @Autowired
-    ManageTA manageTA;
+//    @Autowired
+//    ManageTA manageTA;
 
     @Autowired
     CalcEstimateTimeThread calcEstimateTimeThread;
 
     public  void getData() throws Exception{
+        ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringBootJerseyApplication.class);
+        ManageTA manageTA1 =(ManageTA) ctx.getBean("manageTA");
+        manageTA1.setLocation("London,United Kingdom");
+        Thread thread = new Thread(manageTA1);
+        thread.start();
 
-//        manageTA.setLocation("London,United Kingdom");
-//        Thread thread = new Thread(manageTA);
-//        thread.start();
-//
-//        manageTA.setLocation("Tel Aviv, Israel");
-//        Thread thread2 = new Thread(manageTA);
-//        thread2.start();
+        ManageTA manageTA2 = (ManageTA)ctx.getBean("manageTA");
+        manageTA2.setLocation("Tel Aviv, Israel");
+        Thread thread2 = new Thread(manageTA2);
+        thread2.start();
 
-        manageTA.setLocation("New York City, New York");
-        Thread thread3 = new Thread(manageTA);
+        ManageTA manageTA3 = (ManageTA)ctx.getBean("manageTA");
+        manageTA3.setLocation("New York City, New York");
+        Thread thread3 = new Thread(manageTA3);
         thread3.start();
 
 
@@ -33,6 +39,8 @@ public class TAImpl implements TAApi{
 
     @Override
     public void syncEstimateTime() throws Exception{
+        ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringBootJerseyApplication.class);
+        CalcEstimateTimeThread  calcEstimateTimeThread = (CalcEstimateTimeThread)ctx.getBean("calcEstimateTimeThread");
         calcEstimateTimeThread.run();
     }
 

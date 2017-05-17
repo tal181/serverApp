@@ -7,6 +7,7 @@ import com.myapp.domain.activity.Activity;
 import com.myapp.domain.category.Category;
 import org.apache.logging.log4j.LogManager;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -15,6 +16,7 @@ import java.util.*;
  * Created by Tal on 27/04/2017.
  */
 @Component
+@Scope("prototype")
 public class TAInsertDBThread {
 
     @Autowired
