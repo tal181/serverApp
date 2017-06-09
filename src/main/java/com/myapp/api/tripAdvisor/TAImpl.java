@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class TAImpl implements TAApi{
-    
+
     public  void getData() throws Exception{
         ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringBootJerseyApplication.class);
         ManageTA manageTA1 =(ManageTA) ctx.getBean("manageTA");
