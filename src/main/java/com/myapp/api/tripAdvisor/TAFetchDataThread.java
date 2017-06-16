@@ -80,14 +80,14 @@ public class TAFetchDataThread implements Callable{
 
         }
         if(ele!=null){
-            WebElement globalAttractions=driver.findElementById("global-nav-Attractions");
+            WebElement globalAttractions=driver.findElementById("global-nav-attractions");
             globalAttractions.click();
             Thread.sleep(2000);
             WebElement textBox=driver.findElementByClassName("typeahead_input"); //todo need to fix
             setLocation(textBox,driver,location);
 
-            WebElement thingsToDo=driver.findElementById("SUBMIT_THINGS_TO_DO");
-            thingsToDo.click();
+            //WebElement thingsToDo=driver.findElementById("SUBMIT_THINGS_TO_DO");
+            //thingsToDo.click();
         }
         else{
             //set category

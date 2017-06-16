@@ -65,7 +65,7 @@ public class Category {
         result = categoryName.hashCode();
         temp = Double.doubleToLongBits(rating);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
-        temp = id.hashCode();
+        //temp = id.hashCode();
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         return result;
     }
