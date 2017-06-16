@@ -37,8 +37,8 @@ public class CalcEstimateTimeThread {
     public void run() throws Exception{
 
         //todo change to id
-        String locationId="New York City, New York";
-        Location location=locationApi.getLocationByName("New York City, New York");
+        String locationName="New York City, New York";
+        Location location=locationApi.getLocationByName(locationName);
         final List<Activity> activities;
         try {
             List<Activity> tempActivities = activityApi.getActivitiesByLocation(location.getLocationId());

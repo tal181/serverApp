@@ -11,5 +11,5 @@ public interface TAApi {
 
     void syncEstimateTime() throws Exception;
 
-    Graph buildLocationActivitiesGraph(String location) throws Exception;
+    Graph buildLocationActivitiesGraph(String locationId) throws Exception;
 }

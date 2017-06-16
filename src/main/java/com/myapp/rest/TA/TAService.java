@@ -55,11 +55,11 @@ public class TAService {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/buildLocationActivitiesGraph/{location}")
-    public Response buildLocationActivitiesGraph(@PathParam("location") String location) {
+    @Path("/buildLocationActivitiesGraph/{locationId}")
+    public Response buildLocationActivitiesGraph(@PathParam("locationId") String locationId) {
         try {
-            location="New York City, New York";
-            Graph graph=taApi.buildLocationActivitiesGraph(location);
+
+            Graph graph=taApi.buildLocationActivitiesGraph(locationId);
 
             return Response
                     .ok()
