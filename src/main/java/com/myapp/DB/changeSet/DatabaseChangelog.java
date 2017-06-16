@@ -35,5 +35,15 @@ public class DatabaseChangelog {
 
     }
 
+    @ChangeSet(order = "002", id = "addUsers", author = "tal")
+    public void addUsers(DB db){
+        DBCollection users=db.getCollection("users");
+
+        BasicDBObject document = new BasicDBObject();
+        document.put("loginName", "admin");
+        document.put("password", "admin1");
+        users.insert(document);
+    }
+
 
 }
