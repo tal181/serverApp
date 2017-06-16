@@ -1,4 +1,4 @@
-package com.myapp.graph;
+package com.tests.graph;
 
 /**
  * Created by Tal on 10/06/2017.

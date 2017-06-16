@@ -67,7 +67,7 @@ public class TAImpl implements TAApi{
     public Graph buildLocationActivitiesGraph(String locationId) throws Exception{
         Graph graph = new Graph();
 
-        locationId="59445320f74e014908455371"; //new york
+        //locationId="59445320f74e014908455371"; //new york
         List<Activity> activities = activityApi.getActivitiesByLocation(locationId);
         activities.forEach(activity -> {
             try {

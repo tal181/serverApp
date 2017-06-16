@@ -1,4 +1,4 @@
-package com.myapp.graph;
+package com.tests.graph;
 
 import com.myapp.api.algorithm.HamdanUtils;
 import org.jgrapht.graph.GraphNode;
