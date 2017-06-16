@@ -4,8 +4,10 @@ import com.google.maps.model.TravelMode;
 import com.myapp.GoogleApiHelper;
 import com.myapp.api.activity.ActivityApi;
 import com.myapp.api.estimateActivity.EstimateActivityApi;
+import com.myapp.api.location.LocationApi;
 import com.myapp.domain.activity.Activity;
 import com.myapp.domain.activity.ActivityEstimateTimeDistance;
+import com.myapp.domain.location.Location;
 import org.apache.logging.log4j.LogManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -27,15 +29,19 @@ public class CalcEstimateTimeThread {
     ActivityApi activityApi;
 
     @Autowired
+    LocationApi locationApi;
+
+    @Autowired
     EstimateActivityApi estimateActivityApi;
 
     public void run() throws Exception{
 
         //todo change to id
         String locationId="New York City, New York";
+        Location location=locationApi.getLocationByName("New York City, New York");
         final List<Activity> activities;
         try {
-            List<Activity> tempActivities = activityApi.getActivitiesByLocation(locationId);
+            List<Activity> tempActivities = activityApi.getActivitiesByLocation(location.getLocationId());
 
             activities=tempActivities.stream().filter(item -> item.getAddress()!=null && !item.getAddress().isEmpty()).collect(Collectors.toList());
         }

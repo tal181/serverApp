@@ -49,12 +49,12 @@ public class MongoActivityHelper {
         }
         throw  new Exception("activityId " + activityId +" not found ");
     }
-    public  List<Activity> findByLocation(String tableName, String location) throws Exception{
+    public  List<Activity> findByLocation(String tableName, String locationId) throws Exception{
         DBCollection table = mongoTemplate.getCollection(tableName);
 
         BasicDBObject searchQuery = new BasicDBObject();
-        if(location!=null) {
-            searchQuery.put("location", location);
+        if(locationId!=null) {
+            searchQuery.put("locationId", locationId);
         }
 
         DBCursor cursor = table.find(searchQuery);
@@ -93,11 +93,11 @@ public class MongoActivityHelper {
 
     }
 
-    public List<Activity> getBestActivitiesByLocation(String tableName, String location,int countResults) {
+    public List<Activity> getBestActivitiesByLocation(String tableName, String locationId,int countResults) {
         DBCollection table = mongoTemplate.getCollection(tableName);
 
         BasicDBObject searchQuery = new BasicDBObject();
-        searchQuery.put("location", location);
+        searchQuery.put("locationId", locationId);
 
 
         DBCursor cursor = table.find(searchQuery);
