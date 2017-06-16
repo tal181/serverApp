@@ -28,11 +28,16 @@ public class AppConfigMongoDB {
     private String scheme;
 
     @Bean
-    public MongoTemplate mongoClient() throws Exception{
-
+    public MongoClient mongoConfig() throws Exception{
         MongoClientOptions mongoOptions =
                 new MongoClientOptions.Builder().maxWaitTime(1000 * 60 * 5).build();
         MongoClient mongo = new MongoClient(host, mongoOptions);
+
+        return mongo;
+    }
+    @Bean
+    public MongoTemplate mongoClient() throws Exception{
+        MongoClient mongo = mongoConfig();
         MongoDbFactory mongoDbFactory = new SimpleMongoDbFactory(mongo, scheme);
         return new MongoTemplate(mongoDbFactory);
 

@@ -26,7 +26,7 @@ public class ActivityImpl implements ActivityApi{
     public List<Activity> getActivitiesByLocation(String location) throws Exception{
 
             List<Activity> categoriesByLocation=mongoActivityHelper.
-                    find(TablesScheme.ACTIVITIES_TABLE,location);
+                    findByLocation(TablesScheme.ACTIVITIES_TABLE,location);
 
             return categoriesByLocation;
 
@@ -45,5 +45,11 @@ public class ActivityImpl implements ActivityApi{
     @Override
     public void deleteAllRecords() {
         mongoActivityHelper.remove(TablesScheme.ACTIVITIES_TABLE);
+    }
+
+    @Override
+    public Activity getActivityById(String activityId)  throws Exception{
+        Activity activity= mongoActivityHelper.findById(TablesScheme.ACTIVITIES_TABLE,activityId);
+        return activity;
     }
 }

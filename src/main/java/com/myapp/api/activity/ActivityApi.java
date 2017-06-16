@@ -14,5 +14,7 @@ public interface ActivityApi {
 
     void addActivities(List<Activity> activities)  throws Exception;
 
+    Activity getActivityById(String activityId)  throws Exception;
+
     void deleteAllRecords();
 }

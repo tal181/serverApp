@@ -24,8 +24,32 @@ public class MongoActivityHelper {
     @Autowired
     MongoTemplate mongoTemplate;
 
+    public  Activity findById(String tableName, String activityId) throws Exception{
+        DBCollection table = mongoTemplate.getCollection(tableName);
 
-    public  List<Activity> find(String tableName, String location) throws Exception{
+        BasicDBObject searchQuery = new BasicDBObject();
+        if(activityId!=null) {
+            searchQuery.put("_id", new ObjectId(activityId));
+        }
+
+        DBCursor cursor = table.find(searchQuery);
+        Activity activities = new Activity();
+        Gson gson = new Gson();
+
+        while (cursor.hasNext()) {
+            DBObject dBObject = cursor.next();
+            Activity activity = gson.fromJson(dBObject.toString(),
+                    Activity.class);
+
+            ObjectId id = (ObjectId) dBObject.get( "_id" );
+            activity.setActivityId(id.toString());
+
+          return activity;
+
+        }
+        throw  new Exception("activityId " + activityId +" not found ");
+    }
+    public  List<Activity> findByLocation(String tableName, String location) throws Exception{
         DBCollection table = mongoTemplate.getCollection(tableName);
 
         BasicDBObject searchQuery = new BasicDBObject();

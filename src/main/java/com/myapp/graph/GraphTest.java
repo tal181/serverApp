@@ -1,22 +1,24 @@
 package com.myapp.graph;
 
-import org.jgrapht.*;
-import org.jgrapht.alg.*;
+import com.myapp.api.algorithm.HamdanUtils;
+import org.jgrapht.graph.GraphNode;
 import org.jgrapht.graph.*;
 
 import java.lang.reflect.Method;
 import java.util.*;
-import java.util.stream.Collectors;
 
-public class Graph {
-    private static Integer MAX_HOPS=3;
-    public static Map<String,GraphNode> allPaths=new HashMap<String,GraphNode>();
+public class GraphTest {
+    private static Integer MAX_HOPS=2;
+    public static Map<Double,GraphNode> allPaths=new HashMap<Double,GraphNode>();
 
+    public static GraphNode minPath=new GraphNode();
     public static void main(String args[]) throws Exception{
+
+        minPath.setTotalSum(Double.MAX_VALUE);
 
         //SimpleDirectedWeightedGraph graph=genGraph();
 
-        SimpleDirectedWeightedGraph graph=genGraph2();
+        SimpleDirectedWeightedGraph graph=genGraph();
         //get all paths with size 3
 
         String startVertex="vertex1";
@@ -24,44 +26,55 @@ public class Graph {
         GraphNode node= new GraphNode ( startVertex, 0 ,false,0,0D);
         BFS(graph,node);
 
+        HamdanUtils HamdanUtils= new HamdanUtils();
+        HamdanUtils.removePath(graph,minPath);
+
+        startVertex="vertex3";
+        node= new GraphNode ( startVertex, 0 ,false,0,0D);
+        BFS(graph,node);
+
     }
     public static SimpleDirectedWeightedGraph genGraph(){
 
-        SimpleDirectedWeightedGraph<String, DefaultWeightedEdge>  graph =
-                new SimpleDirectedWeightedGraph<String, DefaultWeightedEdge>
+        SimpleDirectedWeightedGraph<GraphNode, DefaultWeightedEdge>  graph =
+                new SimpleDirectedWeightedGraph<GraphNode, DefaultWeightedEdge>
                         (DefaultWeightedEdge.class);
+        GraphNode v1=new GraphNode("vertex1");
+        GraphNode v2=new GraphNode("vertex2");
+        GraphNode v3=new GraphNode("vertex3");
+        GraphNode v4=new GraphNode("vertex4");
+        GraphNode v5=new GraphNode("vertex5");
+        graph.addVertex(v1);
+        graph.addVertex(v2);
+        graph.addVertex(v3);
+        graph.addVertex(v4);
+        graph.addVertex(v5);
 
-        graph.addVertex("vertex1");
-        graph.addVertex("vertex2");
-        graph.addVertex("vertex3");
-        graph.addVertex("vertex4");
-        graph.addVertex("vertex5");
 
-
-        DefaultWeightedEdge e1 = graph.addEdge("vertex1", "vertex2");
+        DefaultWeightedEdge e1 = graph.addEdge(v1,v2);
         graph.setEdgeWeight(e1, 5);
 
-        DefaultWeightedEdge e2 = graph.addEdge("vertex2", "vertex3");
+        DefaultWeightedEdge e2 = graph.addEdge(v2,v3);
         graph.setEdgeWeight(e2, 3);
 
-        DefaultWeightedEdge e3 = graph.addEdge("vertex4", "vertex5");
+        DefaultWeightedEdge e3 = graph.addEdge(v4,v5);
         graph.setEdgeWeight(e3, 6);
 
-        DefaultWeightedEdge e4 = graph.addEdge("vertex2", "vertex4");
+        DefaultWeightedEdge e4 = graph.addEdge(v2,v4);
         graph.setEdgeWeight(e4, 2);
 
 
 
-        DefaultWeightedEdge e6 = graph.addEdge("vertex2", "vertex5");
+        DefaultWeightedEdge e6 = graph.addEdge(v2,v5);
         graph.setEdgeWeight(e6, 9);
 
-        DefaultWeightedEdge e7 = graph.addEdge("vertex4", "vertex1");
+        DefaultWeightedEdge e7 = graph.addEdge(v4,v1);
         graph.setEdgeWeight(e7, 7);
 
-        DefaultWeightedEdge e9 = graph.addEdge("vertex1", "vertex3");
+        DefaultWeightedEdge e9 = graph.addEdge(v1,v3);
         graph.setEdgeWeight(e9, 10);
 
-        DefaultWeightedEdge e10 = graph.addEdge("vertex3", "vertex5");
+        DefaultWeightedEdge e10 = graph.addEdge(v3,v5);
         graph.setEdgeWeight(e10, 1);
 
         return graph;
@@ -135,7 +148,11 @@ public class Graph {
             }
             else{
                 s.getFathers().add(s.getVertexName());
+                allPaths.put(s.getTotalSum(),s);
 
+                if(minPath.getTotalSum()>s.getTotalSum()){
+                    minPath=s;
+                }
                 s.getFathers().forEach(item->{
                     System.out.print(item+"->");
                 });
@@ -144,6 +161,7 @@ public class Graph {
             }
             System.out.println("");
         }
+        //to do case that found less than max
 
         System.out.println("end");
     }
@@ -159,9 +177,6 @@ public class Graph {
             String source=getVertexName(privateObject,"getSource");
             String target=getVertexName(privateObject,"getTarget");
             double weight=getVertexWeight(edge,"getWeight");
-//            System.out.println("source = " + source);
-//            System.out.println("target = " + target);
-//            System.out.println("weight = " + weight);
 
             if(!source.equals(v1.getVertexName())){
 

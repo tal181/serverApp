@@ -1,16 +1,36 @@
 package com.myapp.api.tripAdvisor;
 
 import com.myapp.SpringBootJerseyApplication;
+import com.myapp.api.activity.ActivityApi;
+import com.myapp.api.estimateActivity.EstimateActivityApi;
+import org.jgrapht.graph.Graph;
+import org.jgrapht.graph.GraphNode;
+import com.myapp.domain.activity.Activity;
+import com.myapp.domain.activity.ActivityEstimateTimeDistance;
+import org.jgrapht.graph.DefaultWeightedEdge;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * Created by tal on 26/04/2017.
  */
 @Component
 public class TAImpl implements TAApi{
+
+    @Autowired
+    EstimateActivityApi estimateActivityApi;
+
+    @Autowired
+    ActivityApi activityApi;
+
+
+    private final Logger log = LoggerFactory.getLogger(TAImpl.class);
 
     public  void getData() throws Exception{
         ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringBootJerseyApplication.class);
@@ -37,6 +57,46 @@ public class TAImpl implements TAApi{
         ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringBootJerseyApplication.class);
         CalcEstimateTimeThread  calcEstimateTimeThread = (CalcEstimateTimeThread)ctx.getBean("calcEstimateTimeThread");
         calcEstimateTimeThread.run();
+    }
+
+    @Override
+    //todo refactor
+    public Graph buildLocationActivitiesGraph(String location) throws Exception{
+        Graph graph = new Graph();
+        List<Activity> activities = activityApi.getActivitiesByLocation(location);
+        activities.forEach(activity -> {
+            try {
+                activity.getRating();
+                ActivityEstimateTimeDistance activityEstimateTimeDistance=
+                        estimateActivityApi.getEstimateActivities(activity.getActivityId());
+
+                GraphNode sourceNode = new GraphNode(activity.getActivityName() + " " + activity.getActivityId());
+                graph.getGraph().addVertex(sourceNode);
+
+                activityEstimateTimeDistance.getActivities().forEach(connectedVertex->{
+                    try{
+
+                        //todo bulk fetch
+                        Activity targetVertex=activityApi.getActivityById(connectedVertex.getActivityId());
+                        GraphNode targetNode = new GraphNode(targetVertex.getActivityName() + " "+ targetVertex.getActivityId());
+                        graph.getGraph().addVertex(targetNode);
+
+                        DefaultWeightedEdge edge = graph.getGraph().addEdge(sourceNode,targetNode);
+                        graph.getGraph().setEdgeWeight(edge, connectedVertex.getDuration());
+                    }
+                    catch (Exception e){
+                        log.error("Failed to find target activity " + connectedVertex.getActivityId(),e);
+                    }
+
+                });
+            }
+            catch (Exception e){
+                log.error("Failed to get time estimation for activity " +activity.getActivityId(),e);
+            }
+       });
+
+        return graph;
+
     }
 
 }

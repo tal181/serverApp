@@ -86,6 +86,12 @@
             <version>3.4.2</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.github.mongobee</groupId>
+            <artifactId>mongobee</artifactId>
+            <version>0.12</version>
+        </dependency>
+
         <!--log4j-->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
@@ -131,6 +137,31 @@
             <artifactId>jgrapht-core</artifactId>
             <version>1.0.1</version>
         </dependency>
+
+        <!--jgraph Visualizations-->
+        <dependency>
+            <groupId>org.jgrapht</groupId>
+            <artifactId>jgrapht</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>jgraph</groupId>
+            <artifactId>jgraph</artifactId>
+            <version>5.13.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jgrapht</groupId>
+            <artifactId>jgrapht-ext</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+
+        <!--<dependency>-->
+            <!--<groupId>org.springframework</groupId>-->
+            <!--<artifactId>spring-jdbc</artifactId>-->
+            <!--<version>2.0.6</version>-->
+        <!--</dependency>-->
 
     </dependencies>
 

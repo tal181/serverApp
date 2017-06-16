@@ -1,9 +1,7 @@
-package com.myapp.graph;
+package org.jgrapht.graph;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Tal on 24/05/2017.
@@ -25,7 +23,14 @@ public class GraphNode {
     }
 
     List<String> fathers;
-
+    public GraphNode() {
+        this.vertexName="";
+        this.weight=0D;
+        this.visited=false;
+        this.hops=0;
+        this.totalSum=0D;
+        this.fathers=new ArrayList<>();
+    }
     public GraphNode(String vertexName) {
         this.vertexName=vertexName;
         this.weight=0D;
@@ -91,14 +96,7 @@ public class GraphNode {
 
     @Override
     public String toString() {
-        return "GraphNode{" +
-                "weight=" + weight +
-                ", vertexName='" + vertexName + '\'' +
-                ", totalSum=" + totalSum +
-                ", visited=" + visited +
-                ", hops=" + hops +
-                ", fathers=" + fathers +
-                '}';
+        return  vertexName ;
     }
 
     @Override
