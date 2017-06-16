@@ -18,4 +18,6 @@ public class TablesScheme {
 
     public static final String ACTIVITIES_ESTIMATE_TIME_TABLE="activitiesEstimateTime";
 
+    public static final String LOCATIONS_TABLE="locations";
+
 }

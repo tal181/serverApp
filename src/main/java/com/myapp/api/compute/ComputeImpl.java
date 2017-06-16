@@ -1,9 +1,12 @@
 package com.myapp.api.compute;
 
 import com.myapp.api.location.CountriesApi;
+import com.myapp.api.location.LocationApi;
 import com.myapp.api.locationCategory.LocationCategoryApi;
 import com.myapp.api.user.UserApi;
 import com.myapp.domain.category.Category;
+import com.myapp.domain.country.Country;
+import com.myapp.domain.location.Location;
 import com.myapp.domain.location.LocationCategory;
 import com.myapp.domain.user.UserCategory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +24,9 @@ public class ComputeImpl implements ComputeApi {
     CountriesApi countriesApi;
 
     @Autowired
+    LocationApi locationApi;
+
+    @Autowired
     UserApi userApi;
 
     @Autowired
@@ -29,18 +35,19 @@ public class ComputeImpl implements ComputeApi {
     public List<Category> computeUserLocationsCategories(String loginName) throws Exception{
         List<UserCategory> userCategories=userApi.getUserCategories(loginName);
 
-        Map<String,List<String>> countries= countriesApi.getCountries();
+       List<Country> countries= countriesApi.getCountries();
 
         List<Category> resalts= new ArrayList<>();
 
-        for (Map.Entry<String, List<String>> entry : countries.entrySet()) {
-            List<String> locations = entry.getValue();
-            for (String location : locations) {
-                List<LocationCategory> locationCategories = locationCategoryApi.getCategoriesByLocation(null, location);
+        for (Country country:countries) {
+            List<Location> locations = locationApi.getAllLocationByCountyId(country.getCountryId());
+            for (Location location : locations) {
+                List<LocationCategory> locationCategories = locationCategoryApi.getCategoriesByLocation
+                        (null, location.getLocationId());
                 double result = computeUserLocationRating(userCategories, locationCategories);
 
                 LocationCategory locationCategory = new LocationCategory();
-                locationCategory.setLocation(location);
+                locationCategory.setLocationId(location.getLocationId());
                 locationCategory.setRating(result);
                 resalts.add(locationCategory);
             }

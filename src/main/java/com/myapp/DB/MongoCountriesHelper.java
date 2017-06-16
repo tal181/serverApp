@@ -6,6 +6,9 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.util.JSON;
+import com.myapp.domain.country.Country;
+import com.myapp.domain.location.Location;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Component;
@@ -24,22 +27,23 @@ public class MongoCountriesHelper {
     @Autowired
     MongoTemplate mongoTemplate;
 
-    public  Map<String,List<String>>  find(String tableName) throws Exception{
+    public   List<Country>   find(String tableName) throws Exception{
         DBCollection table = mongoTemplate.getCollection(tableName);
-
+        Gson gson = new Gson();
         BasicDBObject searchQuery = new BasicDBObject();
         DBCursor cursor = table.find(searchQuery);
-        Map<String,List<String>> countries = new HashMap<>();
+        List<Country>  countries = new ArrayList<>();
 
         while (cursor.hasNext()) {
-            DBObject dbobj = cursor.next();
-            dbobj.removeField("_id");
-
-            String key=dbobj.keySet().iterator().next();
-            countries.put(key,(ArrayList)dbobj.get(key));
-            System.out.print("");
+            DBObject dBObject = cursor.next();
+            Country country = gson.fromJson(dBObject.toString(),
+                    Country.class);
+            ObjectId id = (ObjectId) dBObject.get( "_id" );
+            country.setCountryId(id.toString());
         }
         return countries;
+
+
     }
     public void save(String tableName,String jsonObj){
         DBCollection table = mongoTemplate.getCollection(tableName);

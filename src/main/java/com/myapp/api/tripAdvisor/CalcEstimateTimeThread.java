@@ -30,10 +30,12 @@ public class CalcEstimateTimeThread {
     EstimateActivityApi estimateActivityApi;
 
     public void run() throws Exception{
-        String location="New York City, New York";
+
+        //todo change to id
+        String locationId="New York City, New York";
         final List<Activity> activities;
         try {
-            List<Activity> tempActivities = activityApi.getActivitiesByLocation(location);
+            List<Activity> tempActivities = activityApi.getActivitiesByLocation(locationId);
 
             activities=tempActivities.stream().filter(item -> item.getAddress()!=null && !item.getAddress().isEmpty()).collect(Collectors.toList());
         }

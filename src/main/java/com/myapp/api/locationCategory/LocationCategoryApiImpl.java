@@ -20,9 +20,9 @@ public class LocationCategoryApiImpl implements LocationCategoryApi {
     @Autowired
     MongoLocationCategoryHelper mongoLocationCategoryHelper;
 
-    public  List<LocationCategory> getCategoriesByLocation(String categoryName, String location) throws Exception{
+    public  List<LocationCategory> getCategoriesByLocation(String categoryName, String locationId) throws Exception{
         List<LocationCategory> categoriesByLocation=mongoLocationCategoryHelper.
-                find(TablesScheme.LOCATION_CATEGORY_RATING_TABLE,categoryName,location);
+                find(TablesScheme.LOCATION_CATEGORY_RATING_TABLE,categoryName,locationId);
 
         return categoriesByLocation;
 
@@ -38,15 +38,15 @@ public class LocationCategoryApiImpl implements LocationCategoryApi {
 
     }
     @Override
-    public void updateCategory(Category key, String location) throws Exception{
+    public void updateCategory(Category key, String locationId) throws Exception{
         List<LocationCategory> locationCategories =new ArrayList<>();
         LocationCategory locationCategory=new LocationCategory();
-        locationCategory.setLocation(location);
+        locationCategory.setLocationId(locationId);
         locationCategory.setCategoryName(key.getCategoryName());
         locationCategory.setRating(key.getRating());
         locationCategories.add(locationCategory);
 
-        List<LocationCategory> dbLocationCategories =getCategoriesByLocation(key.getCategoryName(), location);
+        List<LocationCategory> dbLocationCategories =getCategoriesByLocation(key.getCategoryName(), locationId);
         if(dbLocationCategories==null || dbLocationCategories.isEmpty()){
             System.out.println("inside addLocationCategories");
             addLocationCategories(locationCategories);

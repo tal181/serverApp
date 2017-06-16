@@ -2,6 +2,7 @@ package com.myapp.api.tripAdvisor;
 
 import com.myapp.domain.activity.Activity;
 import com.myapp.domain.category.Category;
+import com.myapp.domain.location.Location;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -23,17 +24,17 @@ public class ManageTA implements Runnable {
     @Autowired
     TAFetchDataThread taFetchDataThread;
 
-    String location;
+    Location location;
 
     public ManageTA(){
 
     }
 
-    public String getLocation() {
+    public Location getLocation() {
         return location;
     }
 
-    public void setLocation(String location) {
+    public void setLocation(Location location) {
         this.location = location;
     }
 

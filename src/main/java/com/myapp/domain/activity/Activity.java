@@ -14,7 +14,7 @@ public class Activity {
     private String activityId;
 
     private String activityName;
-    private String location;
+    private String locationId;
     private String address;
     private Integer suggestedDuration;
     private Double rating;
@@ -24,12 +24,12 @@ public class Activity {
     public Activity(){
 
     }
-    public Activity(String activityId, String activityName, String location,
+    public Activity(String activityId, String activityName, String locationId,
                     Integer suggestedDuration, Double rating, int numbersOfReviews,
                     List<DayPart> dayParts, List<Pair<Hour,Hour>> openHours) {
         this.activityId = activityId;
         this.activityName = activityName;
-        this.location = location;
+        this.locationId = locationId;
         this.suggestedDuration = suggestedDuration;
         this.rating = rating;
         this.numbersOfReviews = numbersOfReviews;
@@ -49,7 +49,7 @@ public class Activity {
         this.address=otherActivity.address;
         this.activityId = otherActivity.activityId;
         this.activityName = otherActivity.activityName;
-        this.location = otherActivity.location;
+        this.locationId = otherActivity.locationId;
         this.suggestedDuration = otherActivity.suggestedDuration;
         this.rating = otherActivity.rating;
         this.numbersOfReviews = otherActivity.numbersOfReviews;
@@ -89,12 +89,12 @@ public class Activity {
         this.activityName = activityName;
     }
 
-    public String getLocation() {
-        return location;
+    public String getLocationId() {
+        return locationId;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setLocationId(String locationId) {
+        this.locationId = locationId;
     }
 
     public Double getRating() {
@@ -119,7 +119,7 @@ public class Activity {
                 "activityId=" + activityId +
                 ", activityName='" + activityName + '\'' +
                 ", address='" + address + '\'' +
-                ", location='" + location + '\'' +
+                ", location='" + locationId + '\'' +
                 ", suggestedDuration='" + suggestedDuration + '\'' +
                 ", rating=" + rating +
                 ", numbersOfReviews=" + numbersOfReviews +

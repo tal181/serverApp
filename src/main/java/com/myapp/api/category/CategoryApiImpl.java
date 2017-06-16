@@ -43,13 +43,13 @@ public class CategoryApiImpl implements CategoryApi {
         return allCategoriesMap;
     }
 
-    public  List<LocationCategory> getCategoriesByLocation(String location) throws Exception{
+    public  List<LocationCategory> getCategoriesByLocation(String locationId) throws Exception{
         List<Category> categories= getCategories();
 
         List<LocationCategory> categoriesByLocation= new ArrayList<>();
 
         categories.forEach(category -> {
-            LocationCategory locationCategory = new LocationCategory(location,
+            LocationCategory locationCategory = new LocationCategory(locationId,
                     category.getCategoryName(),2.0);
             categoriesByLocation.add(locationCategory);
         });

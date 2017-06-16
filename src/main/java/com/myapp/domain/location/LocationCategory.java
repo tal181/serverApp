@@ -7,25 +7,25 @@ import com.myapp.domain.category.Category;
  */
 public class LocationCategory extends Category {
 
-    private String location;
+    private String locationId;
     private int defaultDuration;
 
     public LocationCategory() {
         super("",0.0);
     }
 
-    public LocationCategory(String location, String category, double value) {
+    public LocationCategory(String locationId, String category, double value) {
         super(category,value);
-        this.location=location;
+        this.locationId=locationId;
         this.defaultDuration = 180;
     }
 
-    public String getLocation() {
-        return location;
+    public String geLocationId() {
+        return locationId;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setLocationId(String locationId) {
+        this.locationId = locationId;
     }
 
 

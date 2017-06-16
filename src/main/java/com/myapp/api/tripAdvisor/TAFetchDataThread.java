@@ -1,8 +1,10 @@
 package com.myapp.api.tripAdvisor;
 
 import com.myapp.Constants;
+import com.myapp.api.location.LocationApi;
 import com.myapp.domain.activity.Activity;
 import com.myapp.domain.category.Category;
+import com.myapp.domain.location.Location;
 import jdk.nashorn.internal.runtime.ECMAException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -37,10 +39,13 @@ public class TAFetchDataThread implements Callable{
     public static final int MAX_NUMBER_OF_ATTRACTIONS_FOR_CATEGORY=1;
 
 
-    String location;
+    Location location;
 
     @Autowired
     TAUtils taUtils;
+
+    @Autowired
+    LocationApi locationApi;
 
     public TAFetchDataThread() {
     }
@@ -49,29 +54,32 @@ public class TAFetchDataThread implements Callable{
         return getCategoryAggregation(location);
     }
 
-    public String getLocation() {
+    public Location getLocation() {
         return location;
     }
 
-    public void setLocation(String location) {
+    public void setLocation(Location location) {
         this.location = location;
     }
 
-    public static void main(String[] args) throws Exception{
-        TAFetchDataThread thread= new TAFetchDataThread();
-        HashMap<Category,List<Activity> > a= thread.getCategoryAggregation("New York City, New York");
+//    public static void main(String[] args) throws Exception{
+//        TAFetchDataThread thread= new TAFetchDataThread();
+//
+//        String locationName="New York City, New York";
+//        Location location=locationApi.getLocationByName(locationName);
+//        HashMap<Category,List<Activity> > a= thread.getCategoryAggregation(location);
+//
+//        for (Map.Entry<Category, List<Activity>> entry : a.entrySet()) {
+//            try {
+//                System.out.println("Category is " + entry.getKey());
+//                System.out.println("value is " + entry.getValue().toString());
+//            } catch (Exception e) {
+//
+//            }
+//        }
+//    }
 
-        for (Map.Entry<Category, List<Activity>> entry : a.entrySet()) {
-            try {
-                System.out.println("Category is " + entry.getKey());
-                System.out.println("value is " + entry.getValue().toString());
-            } catch (Exception e) {
-
-            }
-        }
-    }
-
-    public  void decideBetweenPages(FirefoxDriver driver,String location) throws Exception{
+    public  void decideBetweenPages(FirefoxDriver driver,Location location) throws Exception{
         WebElement ele=null;
         try {
             ele=driver.findElementById(SUBMIT_HOTELS);
@@ -84,7 +92,7 @@ public class TAFetchDataThread implements Callable{
             globalAttractions.click();
             Thread.sleep(2000);
             WebElement textBox=driver.findElementByClassName("typeahead_input"); //todo need to fix
-            setLocation(textBox,driver,location);
+            setLocation(textBox,driver,location.getLocationName());
 
             //WebElement thingsToDo=driver.findElementById("SUBMIT_THINGS_TO_DO");
             //thingsToDo.click();
@@ -94,10 +102,10 @@ public class TAFetchDataThread implements Callable{
             setCategory(driver);
             //set location
             WebElement searchField=driver.findElement(By.id(SEARCH_LOCATION));
-            setLocation(searchField,driver,location);
+            setLocation(searchField,driver,location.getLocationName());
         }
     }
-    public  HashMap<Category,List<Activity> > getCategoryAggregation(String location) throws Exception {
+    public  HashMap<Category,List<Activity> > getCategoryAggregation(Location location) throws Exception {
         System.out.println( "getCategoryAggregation " + location + " started !!!!!!!!!!");
 
         FirefoxDriver driver=initDriver();
@@ -126,7 +134,7 @@ public class TAFetchDataThread implements Callable{
         for (Map.Entry<String, String> entry : categoriesList.entrySet())
         {
             driver.get(entry.getValue());
-            List<Activity> attractionsList=getAttractions(driver,location);
+            List<Activity> attractionsList=getAttractions(driver,location.getLocationId());
             categoryAggregation.put(new Category(entry.getKey()),attractionsList);
             //driver.navigate().back();
         }
@@ -195,7 +203,7 @@ public class TAFetchDataThread implements Callable{
         //Thread.sleep(10000);
         driver.switchTo().window(parentHandle);
     }
-    private    List<Activity>  getAttractions(FirefoxDriver driver, String location) throws Exception{
+    private    List<Activity>  getAttractions(FirefoxDriver driver, String locationId) throws Exception{
         List<Activity>  attractionsList = new ArrayList<>();
         WebElement attractions=driver.findElement(By.id(ATTRACTIONS_LIST));
         List<WebElement> childs = attractions.findElements(By.className("listing_info"));
@@ -210,7 +218,7 @@ public class TAFetchDataThread implements Callable{
                 WebElement title = child.findElement(By.className("listing_title"));
                 String titleText=title.getText();
                 activity.setActivityName(titleText);
-                activity.setLocation(location);
+                activity.setLocationId(locationId);
                 WebElement activityLink=title.findElement(By.tagName("a"));
                 activityLink.click();
 

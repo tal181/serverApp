@@ -5,6 +5,7 @@ import com.myapp.api.category.CategoryApi;
 import com.myapp.api.locationCategory.LocationCategoryApi;
 import com.myapp.domain.activity.Activity;
 import com.myapp.domain.category.Category;
+import com.myapp.domain.location.Location;
 import org.apache.logging.log4j.LogManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -28,8 +29,8 @@ public class TAInsertDBThread {
     @Autowired
     ActivityApi activityApi;
 
-    public   void insert(HashMap<Category,List<Activity> > categoryAggregation, String location) throws Exception {
-        System.out.println( "Starting adding "+ location + " to DB  !!!!!!!!!!");
+    public   void insert(HashMap<Category,List<Activity> > categoryAggregation, Location location) throws Exception {
+        System.out.println( "Starting adding "+ location.getLocationName() + " to DB  !!!!!!!!!!");
 
         categoryApi.deleteAllRecords();
 
@@ -58,7 +59,7 @@ public class TAInsertDBThread {
                 Category key=entry.getKey();
                 key.setRating(catRating);
 
-                locationCategoryApi.updateCategory(key,location);
+                locationCategoryApi.updateCategory(key,location.getLocationId());
 
                 //recalc category rating
                 List<Activity> recalcActivitesRating=recalcActivitesRating(activites,sumOfCategory);

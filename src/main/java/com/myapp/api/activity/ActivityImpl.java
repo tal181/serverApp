@@ -23,10 +23,10 @@ public class ActivityImpl implements ActivityApi{
 
         return categoriesByLocation;
     }
-    public List<Activity> getActivitiesByLocation(String location) throws Exception{
+    public List<Activity> getActivitiesByLocation(String locationId) throws Exception{
 
             List<Activity> categoriesByLocation=mongoActivityHelper.
-                    findByLocation(TablesScheme.ACTIVITIES_TABLE,location);
+                    findByLocation(TablesScheme.ACTIVITIES_TABLE,locationId);
 
             return categoriesByLocation;
 

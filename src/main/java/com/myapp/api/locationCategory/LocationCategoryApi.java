@@ -11,11 +11,11 @@ import java.util.List;
 public interface LocationCategoryApi {
 
 
-    public  List<LocationCategory> getCategoriesByLocation(String categoryName, String location) throws Exception;
+    public  List<LocationCategory> getCategoriesByLocation(String categoryName, String locationId) throws Exception;
 
     public void addLocationCategories(List<LocationCategory> locationCategories) throws Exception;
 
-    void updateCategory(Category key, String location) throws Exception;
+    void updateCategory(Category key, String locationId) throws Exception;
 
 
 }

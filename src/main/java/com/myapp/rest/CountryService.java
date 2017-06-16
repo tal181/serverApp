@@ -1,6 +1,7 @@
 package com.myapp.rest;
 
 import com.myapp.api.location.CountriesApi;
+import com.myapp.domain.country.Country;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -30,7 +31,7 @@ public class CountryService {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllCountries() {
         try {
-            Map<String,List<String>>  countries=countriesApi.getCountries();
+            List<Country> countries=countriesApi.getCountries();
             return Response
                     .ok(countries)
                     .type(MediaType.APPLICATION_JSON)
@@ -46,7 +47,7 @@ public class CountryService {
     @POST
     @Path("")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response addNewCountries(HashMap<String, ArrayList<String>> countries) {
+    public Response addNewCountries(List<Country> countries) {
         try {
            countriesApi.addNewCountries(countries);
             return Response

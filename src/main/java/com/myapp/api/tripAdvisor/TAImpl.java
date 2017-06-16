@@ -3,6 +3,7 @@ package com.myapp.api.tripAdvisor;
 import com.myapp.SpringBootJerseyApplication;
 import com.myapp.api.activity.ActivityApi;
 import com.myapp.api.estimateActivity.EstimateActivityApi;
+import com.myapp.api.location.LocationApi;
 import org.jgrapht.graph.Graph;
 import org.jgrapht.graph.GraphNode;
 import com.myapp.domain.activity.Activity;
@@ -29,25 +30,27 @@ public class TAImpl implements TAApi{
     @Autowired
     ActivityApi activityApi;
 
+    @Autowired
+    LocationApi locationApi;
 
     private final Logger log = LoggerFactory.getLogger(TAImpl.class);
 
     public  void getData() throws Exception{
         ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringBootJerseyApplication.class);
         ManageTA manageTA1 =(ManageTA) ctx.getBean("manageTA");
-        manageTA1.setLocation("London,United Kingdom");
+        manageTA1.setLocation(locationApi.getLocationByName("New York City, New York"));
         Thread thread = new Thread(manageTA1);
         thread.start();
 
-        ManageTA manageTA2 = (ManageTA)ctx.getBean("manageTA");
-        manageTA2.setLocation("Tel Aviv, Israel");
-        Thread thread2 = new Thread(manageTA2);
-        thread2.start();
-
-        ManageTA manageTA3 = (ManageTA)ctx.getBean("manageTA");
-        manageTA3.setLocation("New York City, New York");
-        Thread thread3 = new Thread(manageTA3);
-        thread3.start();
+//        ManageTA manageTA2 = (ManageTA)ctx.getBean("manageTA");
+//        manageTA2.setLocation("Tel Aviv, Israel");
+//        Thread thread2 = new Thread(manageTA2);
+//        thread2.start();
+//
+//        ManageTA manageTA3 = (ManageTA)ctx.getBean("manageTA");
+//        manageTA3.setLocation("New York City, New York");
+//        Thread thread3 = new Thread(manageTA3);
+//        thread3.start();
 
 
     }
