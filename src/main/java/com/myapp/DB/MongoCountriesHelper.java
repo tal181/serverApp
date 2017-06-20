@@ -40,6 +40,7 @@ public class MongoCountriesHelper {
                     Country.class);
             ObjectId id = (ObjectId) dBObject.get( "_id" );
             country.setCountryId(id.toString());
+            countries.add(country);
         }
         return countries;
 
