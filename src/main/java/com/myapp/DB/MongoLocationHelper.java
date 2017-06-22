@@ -65,7 +65,7 @@ public class MongoLocationHelper {
 
         BasicDBObject searchQuery = new BasicDBObject();
         if(countyId!=null) {
-            searchQuery.put("countryId", new ObjectId(countyId));
+            searchQuery.put("countryId", countyId);
         }
 
         DBCursor cursor = table.find(searchQuery);
