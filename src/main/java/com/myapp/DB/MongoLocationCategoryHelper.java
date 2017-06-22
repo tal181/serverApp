@@ -30,7 +30,7 @@ public class MongoLocationCategoryHelper {
 
         BasicDBObject searchQuery = new BasicDBObject();
         if(location!=null) {
-            searchQuery.put("location", location);
+            searchQuery.put("locationId", location);
         }
         if(categoryName!=null) {
             searchQuery.put("categoryName", categoryName);
