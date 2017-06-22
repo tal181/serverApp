@@ -2,6 +2,7 @@ package com.myapp.rest;
 
 import com.myapp.api.compute.ComputeApi;
 import com.myapp.domain.category.Category;
+import com.myapp.domain.location.LocationCategory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -26,7 +27,7 @@ public class ComputeService {
     public Response compute(@PathParam("loginName") String loginName,
                             @DefaultValue("3") @QueryParam("numberOfActivities") Integer numberOfActivities) {
         try {
-            List<Category> computes =computeApi.computeUserLocationsCategories(loginName);
+            List<LocationCategory> computes =computeApi.computeUserLocationsCategories(loginName);
             int minSize=Math.min(numberOfActivities,computes.size());
             return Response
                     .ok(computes.subList(0, minSize))

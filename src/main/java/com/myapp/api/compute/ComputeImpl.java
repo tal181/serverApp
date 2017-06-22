@@ -32,12 +32,12 @@ public class ComputeImpl implements ComputeApi {
     @Autowired
     LocationCategoryApi locationCategoryApi;
     @Override
-    public List<Category> computeUserLocationsCategories(String loginName) throws Exception{
+    public List<LocationCategory> computeUserLocationsCategories(String loginName) throws Exception{
         List<UserCategory> userCategories=userApi.getUserCategories(loginName);
 
        List<Country> countries= countriesApi.getCountries();
 
-        List<Category> resalts= new ArrayList<>();
+        List<LocationCategory> resalts= new ArrayList<>();
 
         for (Country country:countries) {
             List<Location> locations = locationApi.getAllLocationByCountyId(country.getCountryId());
