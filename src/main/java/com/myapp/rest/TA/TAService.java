@@ -71,4 +71,23 @@ public class TAService {
         }
     }
 
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/buildLocationActivitiesGraph/{locationId}/loginName/{loginName}")
+    public Response buildLocationActivitiesGraph(@PathParam("locationId") String locationId,
+                                                 @PathParam("loginName") String loginName) {
+        try {
+
+            Graph graph=taApi.buildLocationActivitiesGraph(locationId,loginName);
+
+            return Response
+                    .ok()
+                    .type(MediaType.APPLICATION_JSON)
+                    .build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).
+                    entity("error").build();
+        }
+    }
+
 }

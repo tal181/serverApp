@@ -21,12 +21,13 @@ public class Activity {
     private int numbersOfReviews;
     private List<DayPart> dayParts;
     private List<Pair<Hour,Hour>> openHours;
+    private String categoryId;
     public Activity(){
 
     }
     public Activity(String activityId, String activityName, String locationId,
                     Integer suggestedDuration, Double rating, int numbersOfReviews,
-                    List<DayPart> dayParts, List<Pair<Hour,Hour>> openHours) {
+                    List<DayPart> dayParts, List<Pair<Hour,Hour>> openHours,String categoryId) {
         this.activityId = activityId;
         this.activityName = activityName;
         this.locationId = locationId;
@@ -35,6 +36,7 @@ public class Activity {
         this.numbersOfReviews = numbersOfReviews;
         this.dayParts = dayParts;
         this.openHours = openHours;
+        this.categoryId=categoryId;
     }
 
 
@@ -55,6 +57,7 @@ public class Activity {
         this.numbersOfReviews = otherActivity.numbersOfReviews;
         this.dayParts = otherActivity.dayParts;
         this.openHours = otherActivity.openHours;
+        this.categoryId=otherActivity.categoryId;
     }
 
     public Integer getSuggestedDuration() {
@@ -112,6 +115,16 @@ public class Activity {
     public void setDayParts(List<DayPart> dayParts) {
         this.dayParts = dayParts;
     }
+
+
+    public String getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(String categoryId) {
+        this.categoryId = categoryId;
+    }
+
 
     @Override
     public String toString() {

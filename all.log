@@ -1,22 +1,14 @@
-2017-06-17 01:27:40.407 [main] DEBUG org.jboss.logging - Logging Provider: org.jboss.logging.Log4j2LoggerProvider
-2017-06-17 01:27:40.412 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 5.3.4.Final
-2017-06-17 01:27:40.469 [main] DEBUG org.hibernate.validator.internal.engine.resolver.DefaultTraversableResolver - Cannot find javax.persistence.Persistence on classpath. Assuming non JPA 2 environment. All properties will per default be traversable.
-2017-06-17 01:27:40.528 [main] DEBUG org.hibernate.validator.internal.engine.resolver.DefaultTraversableResolver - Cannot find javax.persistence.Persistence on classpath. Assuming non JPA 2 environment. All properties will per default be traversable.
-2017-06-17 01:27:40.536 [main] DEBUG org.hibernate.validator.internal.engine.ConfigurationImpl - Setting custom MessageInterpolator of type org.springframework.validation.beanvalidation.LocaleContextMessageInterpolator
-2017-06-17 01:27:40.538 [main] DEBUG org.hibernate.validator.internal.engine.ConfigurationImpl - Setting custom ConstraintValidatorFactory of type org.springframework.validation.beanvalidation.SpringConstraintValidatorFactory
-2017-06-17 01:27:40.542 [main] DEBUG org.hibernate.validator.internal.engine.ConfigurationImpl - Setting custom ParameterNameProvider of type com.sun.proxy.$Proxy74
-2017-06-17 01:27:40.545 [main] DEBUG org.hibernate.validator.internal.xml.ValidationXmlParser - Trying to load META-INF/validation.xml for XML based Validator configuration.
-2017-06-17 01:27:40.548 [main] DEBUG org.hibernate.validator.internal.xml.ResourceLoaderHelper - Trying to load META-INF/validation.xml via user class loader
-2017-06-17 01:27:40.550 [main] DEBUG org.hibernate.validator.internal.xml.ResourceLoaderHelper - Trying to load META-INF/validation.xml via TCCL
-2017-06-17 01:27:40.550 [main] DEBUG org.hibernate.validator.internal.xml.ResourceLoaderHelper - Trying to load META-INF/validation.xml via Hibernate Validator's class loader
-2017-06-17 01:27:40.552 [main] DEBUG org.hibernate.validator.internal.xml.ValidationXmlParser - No META-INF/validation.xml found. Using annotation based configuration only.
-2017-06-17 01:27:43.626 [main] DEBUG org.hibernate.validator.internal.engine.resolver.DefaultTraversableResolver - Cannot find javax.persistence.Persistence on classpath. Assuming non JPA 2 environment. All properties will per default be traversable.
-2017-06-17 01:27:43.628 [main] DEBUG org.hibernate.validator.internal.engine.resolver.DefaultTraversableResolver - Cannot find javax.persistence.Persistence on classpath. Assuming non JPA 2 environment. All properties will per default be traversable.
-2017-06-17 01:27:43.629 [main] DEBUG org.hibernate.validator.internal.engine.ConfigurationImpl - Setting custom MessageInterpolator of type org.springframework.validation.beanvalidation.LocaleContextMessageInterpolator
-2017-06-17 01:27:43.629 [main] DEBUG org.hibernate.validator.internal.engine.ConfigurationImpl - Setting custom ConstraintValidatorFactory of type org.springframework.validation.beanvalidation.SpringConstraintValidatorFactory
-2017-06-17 01:27:43.629 [main] DEBUG org.hibernate.validator.internal.engine.ConfigurationImpl - Setting custom ParameterNameProvider of type com.sun.proxy.$Proxy74
-2017-06-17 01:27:43.629 [main] DEBUG org.hibernate.validator.internal.xml.ValidationXmlParser - Trying to load META-INF/validation.xml for XML based Validator configuration.
-2017-06-17 01:27:43.629 [main] DEBUG org.hibernate.validator.internal.xml.ResourceLoaderHelper - Trying to load META-INF/validation.xml via user class loader
-2017-06-17 01:27:43.630 [main] DEBUG org.hibernate.validator.internal.xml.ResourceLoaderHelper - Trying to load META-INF/validation.xml via TCCL
-2017-06-17 01:27:43.630 [main] DEBUG org.hibernate.validator.internal.xml.ResourceLoaderHelper - Trying to load META-INF/validation.xml via Hibernate Validator's class loader
-2017-06-17 01:27:43.631 [main] DEBUG org.hibernate.validator.internal.xml.ValidationXmlParser - No META-INF/validation.xml found. Using annotation based configuration only.
+2017-06-23 01:04:00.816 [Thread-7] ERROR  - error  java.lang.NullPointerException
+2017-06-23 01:04:00.820 [Thread-7] ERROR  - error  java.lang.NullPointerException
+2017-06-23 01:04:00.821 [Thread-7] ERROR  - error  java.lang.NullPointerException
+2017-06-23 01:04:00.821 [Thread-7] ERROR  - error  java.lang.NullPointerException
+2017-06-23 01:04:00.821 [Thread-7] ERROR  - error  java.lang.NullPointerException
+2017-06-23 01:04:00.821 [Thread-7] ERROR  - error  java.lang.NullPointerException
+2017-06-23 01:04:00.821 [Thread-7] ERROR  - error  java.lang.NullPointerException
+2017-06-23 01:04:00.821 [Thread-7] ERROR  - error  java.lang.NullPointerException
+2017-06-23 01:04:00.822 [Thread-7] ERROR  - error  java.lang.NullPointerException
+2017-06-23 01:04:00.822 [Thread-7] ERROR  - error  java.lang.NullPointerException
+2017-06-23 01:04:00.822 [Thread-7] ERROR  - error  java.lang.NullPointerException
+2017-06-23 01:04:00.823 [Thread-7] ERROR  - error  java.lang.NullPointerException
+2017-06-23 01:04:00.823 [Thread-7] ERROR  - error  java.lang.NullPointerException
+2017-06-23 01:04:00.823 [Thread-7] ERROR  - error  java.lang.NullPointerException

@@ -17,4 +17,6 @@ public interface ActivityApi {
     Activity getActivityById(String activityId)  throws Exception;
 
     void deleteAllRecords();
+
+    List<Activity> getActivitiesByLocationAndLoginName(String locationId,String loginName) throws Exception;
 }

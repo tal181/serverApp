@@ -32,9 +32,9 @@ public class TAInsertDBThread {
     public   void insert(HashMap<Category,List<Activity> > categoryAggregation, Location location) throws Exception {
         System.out.println( "Starting adding "+ location.getLocationName() + " to DB  !!!!!!!!!!");
 
-        categoryApi.deleteAllRecords();
+        //categoryApi.deleteAllRecords();
 
-        activityApi.deleteAllRecords();
+        //activityApi.deleteAllRecords();
 
         //get all categories
         Map<String,Category> allCategoriesMap=categoryApi.getCategoriesMap();
@@ -42,7 +42,7 @@ public class TAInsertDBThread {
 
         //create diff categories
         handleCategoriesCreate(allCategoriesMap,categories);
-
+        allCategoriesMap=categoryApi.getCategoriesMap();
         //insert activities
         for (Map.Entry<Category, List<Activity>> entry : categoryAggregation.entrySet())
         {
@@ -51,6 +51,10 @@ public class TAInsertDBThread {
 
                 //set cat rating
                 List<Activity> activites=entry.getValue();
+                Category cat=allCategoriesMap.get(entry.getKey().getCategoryName());
+                activites.forEach(activity->{
+                    activity.setCategoryId(cat.getId());
+                });
 
                 //calc category sum
                 Double sumOfCategory=computeSumOfCategory(activites);

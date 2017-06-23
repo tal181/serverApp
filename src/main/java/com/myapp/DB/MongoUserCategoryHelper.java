@@ -41,8 +41,8 @@ public class MongoUserCategoryHelper {
             UserCategory userCategory = gson.fromJson(dBObject.toString(),
                     UserCategory.class);
 
-            ObjectId id = (ObjectId)dBObject.get( "_id" );
-            userCategory.setId(id.toString());
+//            ObjectId id = (ObjectId)dBObject.get( "_id" );
+//            userCategory.setId(id.toString());
 
             categories.add(userCategory);
 

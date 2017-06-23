@@ -7,6 +7,7 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.util.JSON;
 import com.myapp.domain.activity.Activity;
+import com.myapp.domain.user.UserCategory;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Tal on 16/04/2017.
@@ -110,6 +112,34 @@ public class MongoActivityHelper {
             DBObject dBObject = cursor.next();
             Activity activity = gson.fromJson(dBObject.toString(),
                     Activity.class);
+            activities.add(activity);
+
+        }
+        return activities;
+    }
+
+    public List<Activity> getActivitiesByLocationAndLoginName(String activitiesTable, List<UserCategory> cats) {
+        DBCollection table = mongoTemplate.getCollection(activitiesTable);
+
+        BasicDBObject inQuery = new BasicDBObject();
+        Gson gson = new Gson();
+//        list.add(2);
+//        list.add(4);
+//        list.add(5);
+        List<Activity> activities = new ArrayList<>();
+        List<String> activitiesIds=cats.stream().map(UserCategory::getId).collect(Collectors.toList());
+
+        inQuery.put("categoryId", new BasicDBObject("$in", activitiesIds));
+        DBCursor cursor = table.find(inQuery);
+
+        while (cursor.hasNext()) {
+            DBObject dBObject = cursor.next();
+            Activity activity = gson.fromJson(dBObject.toString(),
+                    Activity.class);
+
+            ObjectId id = (ObjectId) dBObject.get( "_id" );
+            activity.setActivityId(id.toString());
+
             activities.add(activity);
 
         }

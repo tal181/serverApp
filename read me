@@ -1,3 +1,9 @@
 in order to fill db
 1) need to fetch data
 2)run estimate time
+
+1)http://localhost:8080/rest/TA/fetchTaData
+
+2)http://localhost:8080/rest/TA/syncEstimateTime
+
+3)http://localhost:8080/rest/TA/buildLocationActivitiesGraph/{locationId}/loginName/admin

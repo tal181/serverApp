@@ -104,4 +104,46 @@ public class TAImpl implements TAApi{
 
     }
 
+    @Override
+    //todo refactor
+    public Graph buildLocationActivitiesGraph(String locationId,String loginName) throws Exception{
+        Graph graph = new Graph();
+
+        //locationId="59445320f74e014908455371"; //new york
+        List<Activity> activities = activityApi.getActivitiesByLocationAndLoginName(locationId,loginName);
+        activities.forEach(activity -> {
+            try {
+                activity.getRating();
+                ActivityEstimateTimeDistance activityEstimateTimeDistance=
+                        estimateActivityApi.getEstimateActivities(activity.getActivityId());
+
+                GraphNode sourceNode = new GraphNode(activity.getActivityName() + " " + activity.getActivityId());
+                graph.getGraph().addVertex(sourceNode);
+
+                activityEstimateTimeDistance.getActivities().forEach(connectedVertex->{
+                    try{
+
+                        //todo bulk fetch
+                        Activity targetVertex=activityApi.getActivityById(connectedVertex.getActivityId());
+                        GraphNode targetNode = new GraphNode(targetVertex.getActivityName() + " "+ targetVertex.getActivityId());
+                        graph.getGraph().addVertex(targetNode);
+
+                        DefaultWeightedEdge edge = graph.getGraph().addEdge(sourceNode,targetNode);
+                        graph.getGraph().setEdgeWeight(edge, connectedVertex.getDuration());
+                    }
+                    catch (Exception e){
+                        log.error("Failed to find target activity " + connectedVertex.getActivityId(),e);
+                    }
+
+                });
+            }
+            catch (Exception e){
+                log.error("Failed to get time estimation for activity " +activity.getActivityId(),e);
+            }
+        });
+
+        return graph;
+
+    }
+
 }
