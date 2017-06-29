@@ -120,7 +120,9 @@ public class TAInsertDBThread {
         });
 
         //add all categories
-        categoryApi.addNewCategories(catListToAdd);
+        if(catListToAdd.size()>0) {
+            categoryApi.addNewCategories(catListToAdd);
+        }
     }
 
 
